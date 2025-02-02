@@ -1,0 +1,22 @@
+<div class="component">
+  <ng-container *ngIf="userType === 'GUEST'">
+    <a><i class="fa fa-bell" aria-hidden="true"></i></a>
+    <a>Reservations</a>
+    <a>Account</a>
+  </ng-container>
+
+  <ng-container *ngIf="userType === 'HOST'">
+    <a style="font-size: larger; font-weight: 600">
+      +
+      <i class="fa fa-bed" aria-hidden="true"></i
+    ></a>
+    <a><i class="fa fa-bell" aria-hidden="true"></i></a>
+    <a>Requests</a>
+    <a>Account</a>
+  </ng-container>
+
+  <ng-container *ngIf="!userType">
+    <a>Sign in</a>
+    <a>Create an account</a>
+  </ng-container>
+</div>

@@ -1,0 +1,22 @@
+.component {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-right: 1rem;
+}
+
+.component > * {
+  margin-left: 0.6rem;
+  padding: 4px;
+}
+
+a:hover {
+  cursor: pointer;
+  color: var(--blue-primary);
+}
+
+a i {
+  font-size: 1rem;
+}
