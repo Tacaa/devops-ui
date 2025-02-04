@@ -1,5 +1,17 @@
 <div class="container">
-  <img [src]="accommodation.photo" [alt]="accommodation.name" />
+  <div class="card">
+    <p-galleria
+      [value]="accommodation.photo"
+      [showIndicators]="true"
+      [showThumbnails]="false"
+      [containerStyle]="{ 'max-width': '800px' }"
+      [showItemNavigators]="true"
+    >
+      <ng-template pTemplate="item" let-item>
+        <img [src]="item" style="width: 100%; display: block" />
+      </ng-template>
+    </p-galleria>
+  </div>
 
   <div class="details">
     <div class="header">

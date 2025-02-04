@@ -20,7 +20,7 @@ import { GalleriaModule } from 'primeng/galleria';
     SearchComponent,
     AccommodationPageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, GalleriaModule],
   providers: [],
   bootstrap: [AppComponent],
 })

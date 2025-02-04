@@ -22,7 +22,7 @@ export interface Accommodation {
   name: string;
   address: string;
   benefits: Benefits[];
-  photo: string;
+  photo: string[];
   minGuests: number;
   maxGuests: number;
   priceType: PriceType;
@@ -49,7 +49,11 @@ export class AccommodationService {
           Benefits.FREE_PARKING,
           Benefits.AIR_CONDITIONING,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 2,
         maxGuests: 6,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -65,7 +69,11 @@ export class AccommodationService {
           Benefits.SWIMMING_POOL,
           Benefits.FREE_PARKING,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 4,
         maxGuests: 8,
         priceType: PriceType.BY_PERSON,
@@ -77,7 +85,11 @@ export class AccommodationService {
         name: 'Downtown Loft',
         address: '789 City Center, New York',
         benefits: [Benefits.WIFI, Benefits.AIR_CONDITIONING],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 1,
         maxGuests: 3,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -93,7 +105,11 @@ export class AccommodationService {
           Benefits.FREE_PARKING,
           Benefits.AIR_CONDITIONING,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 2,
         maxGuests: 5,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -105,7 +121,11 @@ export class AccommodationService {
         name: 'Rustic Country Home',
         address: '67 Maple Road, Vermont',
         benefits: [Benefits.WIFI, Benefits.FREE_PARKING],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 4,
         maxGuests: 10,
         priceType: PriceType.BY_PERSON,
@@ -121,7 +141,11 @@ export class AccommodationService {
           Benefits.AIR_CONDITIONING,
           Benefits.SWIMMING_POOL,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 1,
         maxGuests: 4,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -137,7 +161,11 @@ export class AccommodationService {
           Benefits.FREE_PARKING,
           Benefits.SWIMMING_POOL,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 2,
         maxGuests: 6,
         priceType: PriceType.BY_PERSON,
@@ -149,7 +177,11 @@ export class AccommodationService {
         name: 'Modern Apartment',
         address: '200 High Street, Boston',
         benefits: [Benefits.WIFI, Benefits.AIR_CONDITIONING],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 1,
         maxGuests: 2,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -161,7 +193,11 @@ export class AccommodationService {
         name: 'Charming Cottage',
         address: '14 Willow Path, Asheville',
         benefits: [Benefits.WIFI, Benefits.FREE_PARKING],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 2,
         maxGuests: 4,
         priceType: PriceType.BY_PERSON,
@@ -177,7 +213,11 @@ export class AccommodationService {
           Benefits.SWIMMING_POOL,
           Benefits.AIR_CONDITIONING,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 3,
         maxGuests: 7,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -189,7 +229,11 @@ export class AccommodationService {
         name: 'Forest Retreat',
         address: '77 Pinewood Trail, Yellowstone',
         benefits: [Benefits.WIFI, Benefits.FREE_PARKING],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 2,
         maxGuests: 6,
         priceType: PriceType.BY_PERSON,
@@ -205,7 +249,11 @@ export class AccommodationService {
           Benefits.AIR_CONDITIONING,
           Benefits.FREE_PARKING,
         ],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 2,
         maxGuests: 5,
         priceType: PriceType.BY_ACCOMMODATION,
@@ -217,7 +265,11 @@ export class AccommodationService {
         name: 'Countryside Farmhouse',
         address: '100 Green Pastures, Kentucky',
         benefits: [Benefits.WIFI, Benefits.FREE_PARKING],
-        photo: '../../assets/images/accommodation.jpg',
+        photo: [
+          '../../assets/images/accommodation1.jpg',
+          '../../assets/images/accommodation2.jpg',
+          '../../assets/images/accommodation3.jpg',
+        ],
         minGuests: 3,
         maxGuests: 8,
         priceType: PriceType.BY_PERSON,

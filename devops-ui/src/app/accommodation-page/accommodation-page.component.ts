@@ -4,6 +4,7 @@ import {
   Accommodation,
   AccommodationService,
 } from '../services/accommodation.service';
+import { Galleria } from 'primeng/galleria';
 
 @Component({
   selector: 'app-accommodation-page',
