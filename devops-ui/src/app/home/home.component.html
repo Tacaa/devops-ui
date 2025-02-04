@@ -1,3 +1,27 @@
 <div class="component">
   <app-search></app-search>
+  <ul class="accommodation-list">
+    <li
+      *ngFor="let accommodation of accommodations"
+      class="accommodation-item"
+      routerLink="/accommodation/{{ accommodation.id }}"
+    >
+      <img
+        [src]="accommodation.photo"
+        [alt]="accommodation.name"
+        class="accommodation-photo"
+      />
+      <div class="accommodation-info">
+        <h3>{{ accommodation.name }}</h3>
+        <p class="address">{{ accommodation.address }}</p>
+        <ul class="benefits">
+          <li *ngFor="let benefit of accommodation.benefits">{{ benefit }}</li>
+        </ul>
+        <p class="price">
+          Price:
+          <strong>{{ accommodation.priceType.replace("_", " ") }}</strong>
+        </p>
+      </div>
+    </li>
+  </ul>
 </div>
