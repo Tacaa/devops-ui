@@ -2,7 +2,7 @@
   <ng-container *ngIf="userType === 'GUEST'">
     <a><i class="fa fa-bell" aria-hidden="true"></i></a>
     <a>Reservations</a>
-    <a>Account</a>
+    <a routerLink="account/1">Account</a>
   </ng-container>
 
   <ng-container *ngIf="userType === 'HOST'">
@@ -12,11 +12,11 @@
     ></a>
     <a><i class="fa fa-bell" aria-hidden="true"></i></a>
     <a>Requests</a>
-    <a>Account</a>
+    <a routerLink="account/1">Account</a>
   </ng-container>
 
   <ng-container *ngIf="!userType">
-    <a>Sign in</a>
-    <a>Create an account</a>
+    <a routerLink="login">Sign in</a>
+    <a routerLink="registration">Create an account</a>
   </ng-container>
 </div>

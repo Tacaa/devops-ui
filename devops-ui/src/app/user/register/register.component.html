@@ -1,0 +1,98 @@
+<div class="register-container">
+  <div class="register-box">
+    <h2 class="register-title">Register</h2>
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
+      <input
+        type="text"
+        formControlName="first_name"
+        placeholder="First Name"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.first_name.invalid &&
+          registerForm.controls.first_name.touched
+        "
+        class="error"
+      >
+        First Name is required
+      </div>
+
+      <input
+        type="text"
+        formControlName="last_name"
+        placeholder="Last Name"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.last_name.invalid &&
+          registerForm.controls.last_name.touched
+        "
+        class="error"
+      >
+        Last Name is required
+      </div>
+
+      <input
+        type="text"
+        formControlName="username"
+        placeholder="Username"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.username.invalid &&
+          registerForm.controls.username.touched
+        "
+        class="error"
+      >
+        Username is required
+      </div>
+
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.email.invalid &&
+          registerForm.controls.email.touched
+        "
+        class="error"
+      >
+        Valid Email is required
+      </div>
+
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.password.invalid &&
+          registerForm.controls.password.touched
+        "
+        class="error"
+      >
+        Password is required
+      </div>
+
+      <button
+        type="submit"
+        class="register-button"
+        [disabled]="registerForm.invalid"
+      >
+        Register account
+      </button>
+    </form>
+  </div>
+</div>

@@ -5,11 +5,16 @@
   align-items: center;
   height: 100%;
   margin-right: 1rem;
+  font-weight: 600;
 }
 
 .component > * {
   margin-left: 0.6rem;
   padding: 4px;
+}
+
+a {
+  color: #000;
 }
 
 a:hover {

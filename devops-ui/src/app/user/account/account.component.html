@@ -1,0 +1,77 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2 class="login-title">My Account</h2>
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="pair">
+        <label for="first_name">First Name</label>
+        <input
+          id="first_name"
+          type="text"
+          formControlName="first_name"
+          placeholder="First Name"
+          class="login-input"
+        />
+      </div>
+
+      <div class="pair">
+        <label for="last_name">Last Name</label>
+        <input
+          id="last_name"
+          type="text"
+          formControlName="last_name"
+          placeholder="Last Name"
+          class="login-input"
+        />
+      </div>
+
+      <div class="pair">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="Username"
+          class="login-input"
+        />
+      </div>
+
+      <div class="pair">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          class="login-input"
+        />
+      </div>
+
+      <div class="pair">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          class="login-input"
+        />
+      </div>
+
+      <button
+        type="button"
+        style="margin-top: 20px"
+        class="login-button"
+        (click)="toggleEdit()"
+      >
+        {{ isEditing ? "Cancel" : "Edit" }}
+      </button>
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="!accountForm.valid"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>
