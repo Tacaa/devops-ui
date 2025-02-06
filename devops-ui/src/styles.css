@@ -87,7 +87,7 @@ a {
 .redButton {
   height: 40px;
   width: fit-content;
-  font-size: 1.7rem;
+  font-size: 0.7rem;
   color: var(--cancel-button-red);
   padding: 5px 10px;
   background-color: white;
@@ -100,4 +100,5 @@ a {
 .redButton:hover {
   background-color: var(--gray4);
   transition: 200ms;
+  cursor: pointer;
 }

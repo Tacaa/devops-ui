@@ -12,7 +12,13 @@ import { AccommodationPageComponent } from './accommodation-page/accommodation-p
 import { GalleriaModule } from 'primeng/galleria';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
-import { AccountComponent } from './user/account/account.component';
+import {
+  AccountComponent,
+  DeleteAccountDialog,
+} from './user/account/account.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -25,6 +31,7 @@ import { AccountComponent } from './user/account/account.component';
     LoginComponent,
     RegisterComponent,
     AccountComponent,
+    DeleteAccountDialog,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +39,11 @@ import { AccountComponent } from './user/account/account.component';
     FormsModule,
     GalleriaModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
   ],
+  entryComponents: [DeleteAccountDialog],
   providers: [],
   bootstrap: [AppComponent],
 })
