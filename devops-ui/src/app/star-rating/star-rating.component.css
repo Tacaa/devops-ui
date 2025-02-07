@@ -1,0 +1,52 @@
+/* star-rating.component.css */
+h2 {
+  margin: 0;
+}
+.star-rating-container {
+  width: 80%;
+  margin: 0 10%;
+  padding-bottom: 10rem;
+}
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.average-rating {
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars {
+  display: inline-block;
+}
+
+.star {
+  font-size: 24px;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.star.filled {
+  color: gold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table thead {
+  background-color: #f2f2f2;
+}
