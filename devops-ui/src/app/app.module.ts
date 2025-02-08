@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PersonalReservationsComponent } from './personal-reservations/personal-reservations.component';
+import { RequestsComponent } from './requests/requests.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PersonalReservationsComponent } from './personal-reservations/personal-
     StarRatingComponent,
     NotificationsComponent,
     PersonalReservationsComponent,
+    RequestsComponent,
   ],
   imports: [
     BrowserModule,

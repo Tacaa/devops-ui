@@ -1,0 +1,62 @@
+<div class="component">
+  <h2>Pending requests</h2>
+  <table class="approval-table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Accommodation</th>
+        <th>Number of Guests</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requests">
+        <td>{{ request.user }}</td>
+        <td style="font-weight: 600">{{ request.accommodation.name }}</td>
+        <td>{{ request.guests }}</td>
+        <td>{{ request.from | date : "dd/MM/yyyy" }}</td>
+        <td>{{ request.to | date : "dd/MM/yyyy" }}</td>
+        <td>
+          <button class="approve" (click)="approveRequest(request)">
+            Approve
+          </button>
+          <button class="decline" (click)="declineRequest(request)">
+            Decline
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>History</h2>
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Accommodation</th>
+        <th>Number of Guests</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let history of reservationHistory">
+        <td>{{ history.user }}</td>
+        <td>{{ history.accommodation.name }}</td>
+        <td>{{ history.guests }}</td>
+        <td>{{ history.from | date : "dd/MM/yyyy" }}</td>
+        <td>{{ history.to | date : "dd/MM/yyyy" }}</td>
+        <td
+          [ngClass]="{
+            accepted: history.status === 'Accepted',
+            declined: history.status === 'Declined'
+          }"
+        >
+          {{ history.status }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
