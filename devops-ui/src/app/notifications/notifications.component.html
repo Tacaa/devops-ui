@@ -1,0 +1,26 @@
+<div class="component">
+  <div class="filter-container">
+    <h3>Filter Notifications</h3>
+    <label *ngFor="let option of hostOptions">
+      <input
+        type="checkbox"
+        [checked]="selectedTypes.includes(option)"
+        (change)="updateFilter(option, $event)"
+      />
+      {{ option }}
+    </label>
+    <label *ngFor="let option of guestOptions">
+      <input
+        type="checkbox"
+        [checked]="selectedTypes.includes(option)"
+        (change)="updateFilter(option, $event)"
+      />
+      {{ option }}
+    </label>
+  </div>
+  <table>
+    <tr *ngFor="let notification of notifications$ | async">
+      <td>{{ notification.message }}</td>
+    </tr>
+  </table>
+</div>

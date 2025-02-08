@@ -5,6 +5,7 @@ import { AccommodationPageComponent } from './accommodation-page/accommodation-p
 import { RegisterComponent } from './user/register/register.component';
 import { LoginComponent } from './user/login/login.component';
 import { AccountComponent } from './user/account/account.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'registration', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'account/:id', component: AccountComponent },
+  { path: 'notifications', component: NotificationsComponent },
 ];
 
 @NgModule({

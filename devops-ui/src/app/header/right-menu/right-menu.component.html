@@ -1,6 +1,8 @@
 <div class="component">
   <ng-container *ngIf="userType === 'GUEST'">
-    <a><i class="fa fa-bell" aria-hidden="true"></i></a>
+    <a routerLink="notifications"
+      ><i class="fa fa-bell" aria-hidden="true"></i
+    ></a>
     <a>Reservations</a>
     <a routerLink="account/1">Account</a>
   </ng-container>
@@ -10,7 +12,9 @@
       +
       <i class="fa fa-bed" aria-hidden="true"></i
     ></a>
-    <a><i class="fa fa-bell" aria-hidden="true"></i></a>
+    <a routerLink="notifications"
+      ><i class="fa fa-bell" aria-hidden="true"></i
+    ></a>
     <a>Requests</a>
     <a routerLink="account/1">Account</a>
   </ng-container>

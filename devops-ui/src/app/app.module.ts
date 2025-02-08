@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     AccountComponent,
     DeleteAccountDialog,
     StarRatingComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,
