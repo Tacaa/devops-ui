@@ -1,0 +1,60 @@
+.component {
+  padding: 2.5rem 5rem;
+}
+
+h2 {
+  margin-bottom: 2rem;
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reservations-table th,
+.reservations-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.reservations-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.reservations-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.accepted {
+  color: green;
+  font-weight: bold;
+}
+
+.declined {
+  color: red;
+  font-weight: bold;
+}
+
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #e60000;
+}

@@ -21,6 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { PersonalReservationsComponent } from './personal-reservations/personal-reservations.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     DeleteAccountDialog,
     StarRatingComponent,
     NotificationsComponent,
+    PersonalReservationsComponent,
   ],
   imports: [
     BrowserModule,
