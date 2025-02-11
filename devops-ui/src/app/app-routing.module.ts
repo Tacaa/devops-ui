@@ -8,6 +8,7 @@ import { AccountComponent } from './user/account/account.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PersonalReservationsComponent } from './personal-reservations/personal-reservations.component';
 import { RequestsComponent } from './requests/requests.component';
+import { CreateAccommodationComponent } from './create-accommodation/create-accommodation.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent },
   { path: 'reservations', component: PersonalReservationsComponent },
   { path: 'requests', component: RequestsComponent },
+  { path: 'create_accommodation', component: CreateAccommodationComponent },
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="accommodation$ | async as accommodation">
   <div class="card">
     <p-galleria
-      [value]="accommodation.photo"
+      [value]="accommodation.photos"
       [showIndicators]="true"
       [showThumbnails]="false"
       [containerStyle]="{ 'max-width': '800px' }"
@@ -19,7 +19,11 @@
     </div>
 
     <div class="location">
-      <span>{{ accommodation.address }}</span>
+      <span>
+        {{ accommodation.address.city }}, {{ accommodation.address.street }}
+        {{ accommodation.address.number }},
+        {{ accommodation.address.country }}</span
+      >
     </div>
 
     <div class="benefits">

@@ -7,15 +7,21 @@
       routerLink="/accommodation/{{ accommodation.id }}"
     >
       <img
-        [src]="accommodation.photo[0]"
+        [src]="accommodation.photos[0]"
         [alt]="accommodation.name"
         class="accommodation-photo"
       />
       <div class="accommodation-info">
         <h3>{{ accommodation.name }}</h3>
-        <p class="address">{{ accommodation.address }}</p>
+        <p class="address">
+          {{ accommodation.address.city }}, {{ accommodation.address.street }}
+          {{ accommodation.address.number }},
+          {{ accommodation.address.country }}
+        </p>
         <ul class="benefits">
-          <li *ngFor="let benefit of accommodation.benefits">{{ benefit }}</li>
+          <li *ngFor="let benefit of accommodation.benefits">
+            {{ benefit.replace("_", " ") }}
+          </li>
         </ul>
         <p class="price">
           Price:

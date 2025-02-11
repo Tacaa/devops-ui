@@ -18,11 +18,19 @@ import {
 } from './user/account/account.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PersonalReservationsComponent } from './personal-reservations/personal-reservations.component';
 import { RequestsComponent } from './requests/requests.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CreateAccommodationComponent } from './create-accommodation/create-accommodation.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core'; // Required for <mat-option>
 
 @NgModule({
   declarations: [
@@ -40,6 +48,7 @@ import { RequestsComponent } from './requests/requests.component';
     NotificationsComponent,
     PersonalReservationsComponent,
     RequestsComponent,
+    CreateAccommodationComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +59,13 @@ import { RequestsComponent } from './requests/requests.component';
     MatDialogModule,
     MatCardModule,
     MatButtonModule,
+    HttpClientModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule,
+    MatOptionModule,
+    BrowserModule,
   ],
   entryComponents: [DeleteAccountDialog],
   providers: [],

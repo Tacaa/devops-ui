@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Accommodation,
-  AccommodationService,
-} from '../services/accommodation.service';
+import { AccommodationService } from '../services/accommodation/accommodation.service';
 import { Galleria } from 'primeng/galleria';
+import { Observable } from 'rxjs';
+import { Accommodation } from '../shared/models/accommodation.model';
 
 @Component({
   selector: 'app-accommodation-page',
@@ -12,7 +11,7 @@ import { Galleria } from 'primeng/galleria';
   styleUrls: ['./accommodation-page.component.css'],
 })
 export class AccommodationPageComponent implements OnInit {
-  accommodation!: Accommodation;
+  accommodation$: Observable<Accommodation> | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,7 +19,7 @@ export class AccommodationPageComponent implements OnInit {
   ) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
-        this.accommodation = accommodationService.getAccomodationById(
+        this.accommodation$ = accommodationService.getAccommodationById(
           params['id']
         );
     });

@@ -1,0 +1,98 @@
+<div class="container">
+  <h2>Create Accommodation</h2>
+
+  <form [formGroup]="accommodationForm" (ngSubmit)="createAccommodation()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Street</mat-label>
+        <input matInput formControlName="street" required />
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Number</mat-label>
+        <input matInput type="number" formControlName="number" required />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" required />
+      </mat-form-field>
+
+      <mat-form-field class="half-width" appearance="outline">
+        <mat-label>Country</mat-label>
+        <input matInput formControlName="country" required />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Benefits</mat-label>
+      <mat-select formControlName="benefits" multiple>
+        <mat-option *ngFor="let benefit of benefits" [value]="benefit">
+          {{ benefit }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Price Type</mat-label>
+      <mat-select formControlName="priceType">
+        <mat-option *ngFor="let type of priceTypes" [value]="type">
+          {{ type }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Request Approval</mat-label>
+      <mat-select formControlName="requestApproval">
+        <mat-option
+          *ngFor="let approval of requestApprovals"
+          [value]="approval"
+        >
+          {{ approval }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Image Upload Section -->
+    <div class="image-upload-container">
+      <label for="fileUpload" class="custom-file-upload">
+        <input
+          type="file"
+          id="fileUpload"
+          (change)="onFileSelected($event)"
+          multiple
+          accept="image/*"
+        />
+        Upload Images
+      </label>
+
+      <!-- Image Previews -->
+      <div class="image-preview-container" *ngIf="selectedFiles.length > 0">
+        <div
+          *ngFor="let file of selectedFiles; let i = index"
+          class="image-preview"
+        >
+          <img [src]="file.preview" alt="Image Preview" />
+          <button type="button" (click)="removeFile(i)">✖</button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      mat-raised-button
+      class="createButton"
+      type="submit"
+      [disabled]="accommodationForm.invalid"
+    >
+      Create Accommodation
+    </button>
+  </form>
+</div>

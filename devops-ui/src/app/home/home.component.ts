@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Accommodation,
-  AccommodationService,
-} from '../services/accommodation.service';
+import { AccommodationService } from '../services/accommodation/accommodation.service';
+import { Accommodation } from '../shared/models/accommodation.model';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +10,13 @@ import {
 export class HomeComponent implements OnInit {
   accommodations: Accommodation[] = [];
 
-  constructor(private accomodationService: AccommodationService) {}
+  constructor(private accommodationService: AccommodationService) {}
+
   ngOnInit(): void {
-    this.accommodations = this.accomodationService.getAll();
+    this.accommodationService.getAllAccommodations().subscribe((data) => {
+      this.accommodations = data;
+    });
+
+    console.log(this.accommodations);
   }
 }
