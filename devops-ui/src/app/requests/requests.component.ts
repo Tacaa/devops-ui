@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccommodationService } from '../services/accommodation.service';
+import { AccommodationService } from '../services/mock/accommodation.service';
 
 @Component({
   selector: 'app-requests',

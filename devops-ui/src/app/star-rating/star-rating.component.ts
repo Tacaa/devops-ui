@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AccommodationRatingService } from '../services/rating/accommodation-rating.service';
+import { Review } from '../shared/models/review.model';
+import { UserService } from '../services/user/user.service';
+import { User } from '../services/mock/user.service';
 
 interface Rating {
   username: string;
@@ -11,39 +15,27 @@ interface Rating {
   styleUrls: ['./star-rating.component.css'],
 })
 export class StarRatingComponent implements OnInit {
-  @Input() forType: 'accommodation' | 'user' = 'accommodation';
-  @Input() id: string = '';
+  @Input() forType!: string;
+  @Input() averageRating!: number;
+  @Input() ratings!: { reviewerId: number; review: number; date: string }[];
 
-  ratings: Rating[] = [];
-  averageRating: number = 0;
+  users: User[] = [];
 
-  constructor() {}
-
-  ngOnInit(): void {
-    this.ratings = this.getMockRatings();
-    this.calculateAverageRating();
-  }
-
-  calculateAverageRating(): void {
-    if (this.ratings.length > 0) {
-      this.averageRating =
-        this.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
-        this.ratings.length;
-    }
-  }
-
-  getMockRatings(): Rating[] {
-    return [
-      { username: 'john_doe', rating: 4 },
-      { username: 'jane_smith', rating: 5 },
-      { username: 'mike_brown', rating: 3 },
-    ];
-  }
+  constructor(private userService: UserService) {}
 
   getStarArray(rating: number): boolean[] {
-    const roundedRating = Math.round(rating);
     return Array(5)
       .fill(false)
-      .map((_, index) => index < roundedRating);
+      .map((_, i) => i < rating);
+  }
+
+  getUserUsername(id: number) {
+    return this.users.find((user) => user.id === id)?.username;
+  }
+
+  ngOnInit(): void {
+    this.userService.getAllUsers().subscribe((data) => {
+      this.users = data;
+    });
   }
 }

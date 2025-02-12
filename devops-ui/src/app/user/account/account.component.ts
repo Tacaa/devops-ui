@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/mock/user.service';
+import { User } from 'src/app/services/mock/user.service';
 import {
   MatDialog,
   MatDialogRef,

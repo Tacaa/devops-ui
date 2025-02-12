@@ -54,5 +54,13 @@
     <button>Reserve</button>
   </div>
 </div>
-<app-star-rating [forType]="'accommodation'" [id]="'some-unique-id'">
-</app-star-rating>
+<ng-container *ngIf="!ratingsData">
+  <h2 style="margin-left: 10rem">No current reviews</h2>
+</ng-container>
+<ng-container *ngIf="ratingsData">
+  <app-star-rating
+    [forType]="'accommodation'"
+    [averageRating]="ratingsData.average"
+    [ratings]="ratingsData.reviews"
+  ></app-star-rating>
+</ng-container>

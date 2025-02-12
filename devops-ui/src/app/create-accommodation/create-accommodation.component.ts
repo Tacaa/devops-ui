@@ -9,11 +9,11 @@ import {
 import { AccommodationService } from '../services/accommodation/accommodation.service';
 import { CreateAccommodationDTO } from '../shared/dto/createAccommodationDTO';
 import {
-  Address,
   Benefits,
   PriceType,
   RequestApproval,
 } from '../shared/models/accommodation.model';
+import { Address } from '../shared/models/address.model';
 
 interface SelectedFile {
   file: File;

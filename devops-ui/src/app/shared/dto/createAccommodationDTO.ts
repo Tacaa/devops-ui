@@ -1,9 +1,9 @@
 import {
-  Address,
   Benefits,
   PriceType,
   RequestApproval,
 } from '../models/accommodation.model';
+import { Address } from '../models/address.model';
 
 export interface CreateAccommodationDTO {
   name: string;

@@ -1,7 +1,6 @@
 <div class="star-rating-container">
   <div class="top">
     <h2>{{ forType === "accommodation" ? "Accommodation" : "User" }} Rating</h2>
-
     <div class="average-rating">
       <p style="margin-right: 1rem">
         Average Rating: {{ averageRating.toFixed(1) }}/5
@@ -17,21 +16,22 @@
       </div>
     </div>
   </div>
-
   <table>
     <thead>
       <tr>
-        <th>Username</th>
+        <th>User</th>
+        <th>Date</th>
         <th>Rating</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let rating of ratings">
-        <td>{{ rating.username }}</td>
-        <td>
+        <td>{{ getUserUsername(rating.reviewerId) }}</td>
+        <td>{{ rating.date }}</td>
+        <td style="text-align: right">
           <div class="stars">
             <span
-              *ngFor="let star of getStarArray(rating.rating)"
+              *ngFor="let star of getStarArray(rating.review)"
               class="star"
               [class.filled]="star"
               >★</span

@@ -1,10 +1,4 @@
-export interface Address {
-  id: number;
-  street: string;
-  number: number;
-  city: string;
-  country: string;
-}
+import { Address } from './address.model';
 
 export enum Benefits {
   WIFI = 'WIFI',
