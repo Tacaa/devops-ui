@@ -1,9 +1,105 @@
-<div>
-  <input
-    [(ngModel)]="searchTerm"
-    type="text"
-    placeholder="Search... "
-    (change)="search()"
-  />
-  <button (click)="search()">Search</button>
+<div class="component">
+  <form #searchForm="ngForm" (ngSubmit)="searchAccommodations()">
+    <div class="block">
+      <label for="city">City:</label>
+      <input
+        id="city"
+        [(ngModel)]="searchData.city"
+        name="city"
+        required
+        type="text"
+        #cityInput="ngModel"
+      />
+      <div
+        *ngIf="cityInput.invalid && (cityInput.dirty || cityInput.touched)"
+        class="error-message"
+      >
+        City is required
+      </div>
+    </div>
+
+    <div class="block">
+      <label for="country">Country:</label>
+      <input
+        id="country"
+        [(ngModel)]="searchData.country"
+        name="country"
+        required
+        type="text"
+        #countryInput="ngModel"
+      />
+      <div
+        *ngIf="
+          countryInput.invalid && (countryInput.dirty || countryInput.touched)
+        "
+        class="error-message"
+      >
+        Country is required
+      </div>
+    </div>
+
+    <div class="block">
+      <label for="numGuests">Number of Guests:</label>
+      <input
+        id="numGuests"
+        [(ngModel)]="searchData.numGuest"
+        name="numGuest"
+        required
+        type="number"
+        min="1"
+        #guestsInput="ngModel"
+      />
+      <div
+        *ngIf="
+          guestsInput.invalid && (guestsInput.dirty || guestsInput.touched)
+        "
+        class="error-message"
+      >
+        Number of guests is required
+      </div>
+    </div>
+
+    <div class="block">
+      <label for="startDate">Start Date:</label>
+      <input
+        id="startDate"
+        [(ngModel)]="searchData.startDate"
+        name="startDate"
+        required
+        type="date"
+        #startDateInput="ngModel"
+      />
+      <div
+        *ngIf="
+          startDateInput.invalid &&
+          (startDateInput.dirty || startDateInput.touched)
+        "
+        class="error-message"
+      >
+        Start date is required
+      </div>
+    </div>
+
+    <div class="block">
+      <label for="endDate">End Date:</label>
+      <input
+        id="endDate"
+        [(ngModel)]="searchData.endDate"
+        name="endDate"
+        required
+        type="date"
+        #endDateInput="ngModel"
+      />
+      <div
+        *ngIf="
+          endDateInput.invalid && (endDateInput.dirty || endDateInput.touched)
+        "
+        class="error-message"
+      >
+        End date is required
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="searchForm.invalid">Search</button>
+  </form>
 </div>

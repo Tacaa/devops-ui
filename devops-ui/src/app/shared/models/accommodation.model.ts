@@ -44,4 +44,6 @@ export interface Accommodation {
   priceType: PriceType;
   requestApproval: RequestApproval;
   hostId: number;
+  unitPrice?: number;
+  toalPrice?: number;
 }

@@ -26,4 +26,25 @@ export class AccommodationService {
       data: Accommodation | null;
     }>(this.apiUrl, accommodation);
   }
+  searchAccommodations(searchData: {
+    city: string;
+    country: string;
+    numGuest: number;
+    startDate: string;
+    endDate: string;
+  }): Observable<{
+    data: {
+      accommodationDTO: Accommodation;
+      unitPrice: number;
+      totalPrice: number;
+    }[];
+  }> {
+    return this.http.post<{
+      data: {
+        accommodationDTO: Accommodation;
+        unitPrice: number;
+        totalPrice: number;
+      }[];
+    }>(`${this.apiUrl}/search`, searchData);
+  }
 }

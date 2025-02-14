@@ -12,6 +12,7 @@ import { CreateAccommodationComponent } from './create-accommodation/create-acco
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'search', component: HomeComponent },
   { path: 'accommodation/:id', component: AccommodationPageComponent },
   { path: 'registration', component: RegisterComponent },
   { path: 'login', component: LoginComponent },

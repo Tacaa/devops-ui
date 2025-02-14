@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AccommodationService } from '../services/accommodation/accommodation.service';
 
 @Component({
   selector: 'app-search',
@@ -7,16 +8,34 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
-  searchTerm: String = '';
-  constructor(private route: ActivatedRoute, private router: Router) {}
-  ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      if (params['searchTerm']) this.searchTerm = params['searchTerm'];
-    });
-  }
+  accommodations: any[] = [];
+  searchData = {
+    city: 'New York',
+    country: 'USA',
+    numGuest: 2,
+    startDate: '2025-05-02',
+    endDate: '2025-05-06',
+  };
 
-  search(): void {
-    if (this.searchTerm)
-      this.router.navigateByUrl('/search/' + this.searchTerm);
+  constructor(
+    private router: Router,
+    private accommodationService: AccommodationService
+  ) {}
+
+  ngOnInit(): void {}
+
+  searchAccommodations() {
+    this.router.navigate(['/search'], {
+      queryParams: { ...this.searchData },
+    });
+
+    this.accommodationService
+      .searchAccommodations(this.searchData)
+      .subscribe((response) => {
+        this.accommodations = response.data.map(
+          (item) => item.accommodationDTO
+        );
+        console.log(this.accommodations);
+      });
   }
 }
