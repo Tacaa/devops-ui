@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Review } from 'src/app/shared/models/review.model';
+import { AccommodationReview } from 'src/app/shared/models/accommodation-review.model';
 
 export interface AccommodationReviews {
   accommodationId: number;
-  reviews: Review[];
+  reviews: AccommodationReview[];
   average: number;
 }
 

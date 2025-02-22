@@ -1,7 +1,7 @@
-export interface Review {
+export interface HostReview {
   id: string;
   review: number;
-  accommodationId: number;
+  hostId: number;
   date: string;
   reviewerId: number;
 }

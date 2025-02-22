@@ -54,13 +54,21 @@
     <button>Reserve</button>
   </div>
 </div>
-<ng-container *ngIf="!ratingsData">
+<ng-container *ngIf="!accommodationRatingsData">
   <h2 style="margin-left: 10rem">No current reviews</h2>
 </ng-container>
-<ng-container *ngIf="ratingsData">
+<ng-container *ngIf="accommodationRatingsData">
   <app-star-rating
     [forType]="'accommodation'"
-    [averageRating]="ratingsData.average"
-    [ratings]="ratingsData.reviews"
+    [averageRating]="accommodationRatingsData.average"
+    [ratings]="accommodationRatingsData.reviews"
+  ></app-star-rating>
+</ng-container>
+
+<ng-container *ngIf="hostRatingsData">
+  <app-star-rating
+    [forType]="'host'"
+    [averageRating]="hostRatingsData.average"
+    [ratings]="hostRatingsData.reviews"
   ></app-star-rating>
 </ng-container>

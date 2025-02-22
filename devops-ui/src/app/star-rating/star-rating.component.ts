@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AccommodationRatingService } from '../services/rating/accommodation-rating.service';
-import { Review } from '../shared/models/review.model';
+import { AccommodationReview } from '../shared/models/accommodation-review.model';
 import { UserService } from '../services/user/user.service';
 import { User } from '../services/mock/user.service';
 

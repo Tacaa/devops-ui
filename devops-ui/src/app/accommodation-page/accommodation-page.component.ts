@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccommodationService } from '../services/accommodation/accommodation.service';
 
-import { Observable } from 'rxjs';
+import { first, map, Observable } from 'rxjs';
 import { Accommodation } from '../shared/models/accommodation.model';
 import { AccommodationRatingService } from '../services/rating/accommodation-rating.service';
+import { UserRatingService } from '../services/rating/user-rating.service';
 
 @Component({
   selector: 'app-accommodation-page',
@@ -13,12 +14,15 @@ import { AccommodationRatingService } from '../services/rating/accommodation-rat
 })
 export class AccommodationPageComponent implements OnInit {
   accommodation$: Observable<Accommodation> | undefined;
-  ratingsData: any; // Holds the rating data
+  accommodationRatingsData: any; // Holds the accomm. rating data
+  hostRatingsData: any; // Holds the host rating data
+  hostId: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private accommodationService: AccommodationService,
-    private ratingService: AccommodationRatingService
+    private accommodationRatingService: AccommodationRatingService,
+    private hostRatingService: UserRatingService
   ) {}
 
   ngOnInit(): void {
@@ -31,10 +35,28 @@ export class AccommodationPageComponent implements OnInit {
           this.accommodationService.getAccommodationById(accommodationId);
 
         // Fetch accommodation ratings
-        this.ratingService
+        this.accommodationRatingService
           .getReviewsByAccommodationId(accommodationId)
           .subscribe((data) => {
-            this.ratingsData = data;
+            this.accommodationRatingsData = data;
+          });
+
+        // Get hostId first, then fetch host ratings
+        this.accommodation$
+          .pipe(
+            first(),
+            map((accommodation) => accommodation?.hostId)
+          )
+          .subscribe((hostId) => {
+            if (hostId) {
+              this.hostId = hostId;
+              // Only fetch host ratings after we have the hostId
+              this.hostRatingService
+                .getReviewsByHostId(hostId) // Use hostId directly here
+                .subscribe((data) => {
+                  this.hostRatingsData = data;
+                });
+            }
           });
       }
     });
