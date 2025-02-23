@@ -30,7 +30,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core'; // Required for <mat-option>
+import { MatOptionModule } from '@angular/material/core';
+import { HostReviewDialogComponent } from './dialogs/host-review-dialog/host-review-dialog.component';
+import { AccommodationReviewDialogComponent } from './dialogs/accommodation-review-dialog/accommodation-review-dialog.component'; // Required for <mat-option>
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { MatOptionModule } from '@angular/material/core'; // Required for <mat-o
     PersonalReservationsComponent,
     RequestsComponent,
     CreateAccommodationComponent,
+    HostReviewDialogComponent,
+    AccommodationReviewDialogComponent,
   ],
   imports: [
     BrowserModule,

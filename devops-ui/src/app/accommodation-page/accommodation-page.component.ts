@@ -8,6 +8,9 @@ import { AccommodationRatingService } from '../services/rating/accommodation-rat
 import { HostRatingService } from '../services/rating/host-rating.service';
 import { ReviewHostDTO } from '../shared/dto/ReviewHostDTO';
 import { ReviewAccommodationDTO } from '../shared/dto/ReviewAccommodationDTO';
+import { MatDialog } from '@angular/material/dialog';
+import { HostReviewDialogComponent } from '../dialogs/host-review-dialog/host-review-dialog.component';
+import { AccommodationReviewDialogComponent } from '../dialogs/accommodation-review-dialog/accommodation-review-dialog.component';
 
 @Component({
   selector: 'app-accommodation-page',
@@ -19,53 +22,57 @@ export class AccommodationPageComponent implements OnInit {
   accommodationRatingsData: any; // Holds the accomm. rating data
   hostRatingsData: any; // Holds the host rating data
   hostId: number = 0;
+  accommodationId: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private accommodationService: AccommodationService,
     private accommodationRatingService: AccommodationRatingService,
-    private hostRatingService: HostRatingService
+    private hostRatingService: HostRatingService,
+    private dialog: MatDialog
   ) {}
 
-  submitHostReview() {
-    const review: ReviewHostDTO = {
-      review: 2,
-      hostId: 16,
-      reviewerId: 1,
-    };
+  openHostReviewDialog(): void {
+    const dialogRef = this.dialog.open(HostReviewDialogComponent, {
+      width: '300px',
+      data: { hostId: this.hostId },
+    });
 
-    this.hostRatingService.reviewHost(review).subscribe({
-      next: (response) => {
-        // Handle successful review
-        console.log('Review submitted successfully:', response.data);
-        // Optionally refresh the host's reviews
-        window.location.reload();
-      },
-      error: (error) => {
-        // Handle error
-        console.error('Error submitting review:', error);
-      },
+    dialogRef.afterClosed().subscribe((review) => {
+      if (review !== undefined) {
+        this.hostRatingService.reviewHost(review).subscribe({
+          next: () => {
+            console.log('Host review submitted successfully');
+            window.location.reload();
+          },
+          error: (error) => {
+            console.error('Error submitting host review:', error);
+            alert(error.error.message);
+          },
+        });
+      }
     });
   }
 
-  submitAccommodationReview() {
-    const review: ReviewAccommodationDTO = {
-      review: 2,
-      accommodationId: 16,
-      reviewerId: 1,
-    };
+  openAccommodationReviewDialog(): void {
+    const dialogRef = this.dialog.open(AccommodationReviewDialogComponent, {
+      width: '300px',
+      data: { accommodationId: this.accommodationId },
+    });
 
-    this.accommodationRatingService.reviewAccommodation(review).subscribe({
-      next: (response) => {
-        // Handle successful review
-        console.log('Review submitted successfully:', response.data);
-        // Optionally refresh the host's reviews
-        window.location.reload();
-      },
-      error: (error) => {
-        // Handle error
-        console.error('Error submitting review:', error);
-      },
+    dialogRef.afterClosed().subscribe((review) => {
+      if (review !== undefined) {
+        this.accommodationRatingService.reviewAccommodation(review).subscribe({
+          next: () => {
+            console.log('Accommodation review submitted successfully');
+            window.location.reload();
+          },
+          error: (error) => {
+            console.error('Error submitting accommodation review:', error);
+            alert(error.error.message);
+          },
+        });
+      }
     });
   }
 
@@ -77,6 +84,8 @@ export class AccommodationPageComponent implements OnInit {
         // Fetch accommodation details
         this.accommodation$ =
           this.accommodationService.getAccommodationById(accommodationId);
+
+        this.accommodationId = accommodationId;
 
         // Fetch accommodation ratings
         this.accommodationRatingService
@@ -93,13 +102,13 @@ export class AccommodationPageComponent implements OnInit {
           )
           .subscribe((hostId) => {
             if (hostId) {
-              this.hostId = hostId;
               // Only fetch host ratings after we have the hostId
               this.hostRatingService
                 .getReviewsByHostId(hostId) // Use hostId directly here
                 .subscribe((data) => {
                   this.hostRatingsData = data;
                 });
+              this.hostId = hostId;
             }
           });
       }

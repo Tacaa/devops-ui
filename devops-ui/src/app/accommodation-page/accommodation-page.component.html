@@ -64,7 +64,7 @@
     [ratings]="accommodationRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
-<button class="rateButton" (click)="submitAccommodationReview()">
+<button class="rateButton" (click)="openAccommodationReviewDialog()">
   Rate accommodation
 </button>
 
@@ -78,4 +78,4 @@
     [ratings]="hostRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
-<button class="rateButton" (click)="submitHostReview()">Rate host</button>
+<button class="rateButton" (click)="openHostReviewDialog()">Rate host</button>
