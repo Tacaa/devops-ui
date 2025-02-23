@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AccommodationService } from '../services/accommodation/accommodation.service';
-import { CreateAccommodationDTO } from '../shared/dto/createAccommodationDTO';
+import { CreateAccommodationDTO } from '../shared/dto/CreateAccommodationDTO';
 import {
   Benefits,
   PriceType,

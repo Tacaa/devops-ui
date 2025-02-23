@@ -5,7 +5,9 @@ import { AccommodationService } from '../services/accommodation/accommodation.se
 import { first, map, Observable } from 'rxjs';
 import { Accommodation } from '../shared/models/accommodation.model';
 import { AccommodationRatingService } from '../services/rating/accommodation-rating.service';
-import { UserRatingService } from '../services/rating/user-rating.service';
+import { HostRatingService } from '../services/rating/host-rating.service';
+import { ReviewHostDTO } from '../shared/dto/ReviewHostDTO';
+import { ReviewAccommodationDTO } from '../shared/dto/ReviewAccommodationDTO';
 
 @Component({
   selector: 'app-accommodation-page',
@@ -22,8 +24,50 @@ export class AccommodationPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private accommodationService: AccommodationService,
     private accommodationRatingService: AccommodationRatingService,
-    private hostRatingService: UserRatingService
+    private hostRatingService: HostRatingService
   ) {}
+
+  submitHostReview() {
+    const review: ReviewHostDTO = {
+      review: 2,
+      hostId: 16,
+      reviewerId: 1,
+    };
+
+    this.hostRatingService.reviewHost(review).subscribe({
+      next: (response) => {
+        // Handle successful review
+        console.log('Review submitted successfully:', response.data);
+        // Optionally refresh the host's reviews
+        window.location.reload();
+      },
+      error: (error) => {
+        // Handle error
+        console.error('Error submitting review:', error);
+      },
+    });
+  }
+
+  submitAccommodationReview() {
+    const review: ReviewAccommodationDTO = {
+      review: 2,
+      accommodationId: 16,
+      reviewerId: 1,
+    };
+
+    this.accommodationRatingService.reviewAccommodation(review).subscribe({
+      next: (response) => {
+        // Handle successful review
+        console.log('Review submitted successfully:', response.data);
+        // Optionally refresh the host's reviews
+        window.location.reload();
+      },
+      error: (error) => {
+        // Handle error
+        console.error('Error submitting review:', error);
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {

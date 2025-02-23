@@ -55,7 +55,7 @@
   </div>
 </div>
 <ng-container *ngIf="!accommodationRatingsData">
-  <h2 style="margin-left: 10rem">No current reviews</h2>
+  <h2 style="margin-left: 10rem">No current accommodation reviews</h2>
 </ng-container>
 <ng-container *ngIf="accommodationRatingsData">
   <app-star-rating
@@ -64,7 +64,13 @@
     [ratings]="accommodationRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
+<button class="rateButton" (click)="submitAccommodationReview()">
+  Rate accommodation
+</button>
 
+<ng-container *ngIf="!hostRatingsData">
+  <h2 style="margin-left: 10rem">No current host reviews</h2>
+</ng-container>
 <ng-container *ngIf="hostRatingsData">
   <app-star-rating
     [forType]="'host'"
@@ -72,3 +78,4 @@
     [ratings]="hostRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
+<button class="rateButton" (click)="submitHostReview()">Rate host</button>
