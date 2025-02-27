@@ -26,7 +26,26 @@
     </thead>
     <tbody>
       <tr *ngFor="let rating of ratings">
-        <td>{{ getUserUsername(rating.reviewerId) }}</td>
+        <td style="width: 600px">
+          {{ getUserUsername(rating.reviewerId) }}
+          <ng-container *ngIf="rating.reviewerId === loggedInUserId">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+              "
+            >
+              <p
+                class="edit"
+                (click)="openAccommodationEditReviewDialog(rating.id)"
+              >
+                Edit
+              </p>
+              <p class="delete" (click)="deleteReview(rating.id)">Delete</p>
+            </div>
+          </ng-container>
+        </td>
         <td>{{ rating.date }}</td>
         <td style="text-align: right">
           <div class="stars">

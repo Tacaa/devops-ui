@@ -50,3 +50,21 @@ table td {
 table thead {
   background-color: #f2f2f2;
 }
+
+table p {
+  margin: 0;
+}
+
+.edit {
+  color: var(--blue-primary);
+}
+
+.delete {
+  padding-left: 0.7rem;
+  color: var(--cancel-button-red);
+}
+
+table p:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

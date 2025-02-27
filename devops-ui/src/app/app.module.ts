@@ -32,7 +32,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { HostReviewDialogComponent } from './dialogs/host-review-dialog/host-review-dialog.component';
-import { AccommodationReviewDialogComponent } from './dialogs/accommodation-review-dialog/accommodation-review-dialog.component'; // Required for <mat-option>
+import { AccommodationReviewDialogComponent } from './dialogs/accommodation-review-dialog/accommodation-review-dialog.component';
+import { AccommodationEditReviewDialogComponent } from './dialogs/accommodation-edit-review-dialog/accommodation-edit-review-dialog.component';
+import { HostEditReviewDialogComponent } from './dialogs/host-edit-review-dialog/host-edit-review-dialog.component'; // Required for <mat-option>
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { AccommodationReviewDialogComponent } from './dialogs/accommodation-revi
     CreateAccommodationComponent,
     HostReviewDialogComponent,
     AccommodationReviewDialogComponent,
+    AccommodationEditReviewDialogComponent,
+    HostEditReviewDialogComponent,
   ],
   imports: [
     BrowserModule,

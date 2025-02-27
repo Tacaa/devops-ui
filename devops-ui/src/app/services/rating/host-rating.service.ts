@@ -35,4 +35,12 @@ export class HostRatingService {
   reviewHost(reviewHostDTO: ReviewHostDTO) {
     return this.http.post<HostReviewResponse>(`${this.apiUrl}`, reviewHostDTO);
   }
+
+  changeHostReview(id: string, reviewHostDTO: ReviewHostDTO) {
+    return this.http.put<Response>(`${this.apiUrl}/${id}`, reviewHostDTO);
+  }
+
+  deleteHostReview(id: string) {
+    return this.http.delete<Response>(`${this.apiUrl}/${id}`);
+  }
 }

@@ -36,10 +36,24 @@ export class AccommodationRatingService {
     );
   }
 
-  reviewAccommodation(reviewHostDTO: ReviewAccommodationDTO) {
+  reviewAccommodation(reviewAccommodationDTO: ReviewAccommodationDTO) {
     return this.http.post<AccommodationReviewResponse>(
       `${this.apiUrl}`,
-      reviewHostDTO
+      reviewAccommodationDTO
     );
+  }
+
+  changeAccommodationReview(
+    id: string,
+    reviewAccommodationDTO: ReviewAccommodationDTO
+  ) {
+    return this.http.put<Response>(
+      `${this.apiUrl}/${id}`,
+      reviewAccommodationDTO
+    );
+  }
+
+  deleteAccommodationReview(id: string) {
+    return this.http.delete<Response>(`${this.apiUrl}/${id}`);
   }
 }
