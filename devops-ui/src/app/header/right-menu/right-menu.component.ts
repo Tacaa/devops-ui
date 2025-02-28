@@ -11,6 +11,6 @@ export class RightMenuComponent {
   constructor() {
     // Example: Fetch user type from localStorage or API
     //this.userType = localStorage.getItem('userType') as 'GUEST' | 'HOST' | null;
-    this.userType = null;
+    this.userType = 'HOST';
   }
 }

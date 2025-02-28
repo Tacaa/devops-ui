@@ -30,6 +30,14 @@ h2 {
   background-color: #f9f9f9;
 }
 
+.accommodationName {
+  color: black;
+}
+
+.accommodationName:hover {
+  text-decoration: underline;
+}
+
 .accepted {
   color: green;
   font-weight: bold;
