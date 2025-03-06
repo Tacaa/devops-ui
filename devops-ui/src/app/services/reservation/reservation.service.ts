@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CreateReservationDTO } from 'src/app/shared/dto/CreateReservationDTO';
+import { Reservation } from 'src/app/shared/models/reservation.model';
 
 interface ApiResponse {
   data: any[];
@@ -21,5 +23,16 @@ export class ReservationService {
 
   guestCancelReservation(id: number) {
     return this.http.delete<Response>(`${this.apiUrl}/${id}`);
+  }
+
+  guestCreateReservation(
+    createReservationDTO: CreateReservationDTO
+  ): Observable<
+    HttpResponse<{ message: string | null; data: Reservation | null }>
+  > {
+    return this.http.post<{
+      message: string | null;
+      data: Reservation | null;
+    }>(`${this.apiUrl}/`, createReservationDTO, { observe: 'response' });
   }
 }
