@@ -21,6 +21,20 @@ export class ReservationService {
     return this.http.get<ApiResponse>(`${this.apiUrl}/guest/${id}`);
   }
 
+  getHostPendingReservations(id: number): Observable<Response> {
+    return this.http.get<Response>(
+      `${this.apiUrl}/all-host-pending-accommodation/${id}`
+    );
+  }
+
+  hostAcceptReservation(id: number) {
+    return this.http.post<Response>(`${this.apiUrl}/accept/${id}`, null);
+  }
+
+  hostDeclineReservation(id: number) {
+    return this.http.post<Response>(`${this.apiUrl}/decline/${id}`, null);
+  }
+
   guestCancelReservation(id: number) {
     return this.http.delete<Response>(`${this.apiUrl}/${id}`);
   }

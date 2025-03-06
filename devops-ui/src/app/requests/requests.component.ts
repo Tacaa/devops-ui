@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccommodationService } from '../services/mock/accommodation.service';
+import { Reservation } from '../shared/models/reservation.model';
+import { ReservationService } from '../services/reservation/reservation.service';
 
 @Component({
   selector: 'app-requests',
@@ -7,85 +9,59 @@ import { AccommodationService } from '../services/mock/accommodation.service';
   styleUrls: ['./requests.component.css'],
 })
 export class RequestsComponent implements OnInit {
-  requests: any[] = [];
-  reservationHistory: any[] = [];
+  requests: Reservation[] = [];
+  loading = false;
+  actionInProgress = false;
 
-  constructor(private accommodationService: AccommodationService) {}
+  error: string | null = null;
+  actionMessage: string | null = null;
+  hostId: number | null = 16;
+
+  constructor(
+    private accommodationService: AccommodationService,
+    private reservationService: ReservationService
+  ) {}
 
   ngOnInit(): void {
-    this.requests = [
-      {
-        user: 'John Doe',
-        accommodation: { name: 'Hotel Sunrise' },
-        guests: 2,
-        from: new Date(2025, 1, 10),
-        to: new Date(2025, 1, 15),
-      },
-      {
-        user: 'Alice Smith',
-        accommodation: { name: 'Sea Breeze Resort' },
-        guests: 4,
-        from: new Date(2025, 2, 5),
-        to: new Date(2025, 2, 10),
-      },
-      {
-        user: 'Bob Johnson',
-        accommodation: { name: 'Mountain Retreat' },
-        guests: 1,
-        from: new Date(2025, 3, 20),
-        to: new Date(2025, 3, 25),
-      },
-      {
-        user: 'Emma Brown',
-        accommodation: { name: 'Urban Stay' },
-        guests: 3,
-        from: new Date(2025, 4, 12),
-        to: new Date(2025, 4, 18),
-      },
-      {
-        user: 'Michael Lee',
-        accommodation: { name: 'Countryside Inn' },
-        guests: 2,
-        from: new Date(2025, 5, 8),
-        to: new Date(2025, 5, 12),
-      },
-    ];
+    this.loading = true;
 
-    this.reservationHistory = [
-      {
-        user: 'David Green',
-        accommodation: { name: 'Lake View Hotel' },
-        guests: 3,
-        from: new Date(2024, 11, 5),
-        to: new Date(2024, 11, 10),
-        status: 'Accepted',
-      },
-      {
-        user: 'Sophia White',
-        accommodation: { name: 'Mountain Lodge' },
-        guests: 2,
-        from: new Date(2024, 10, 15),
-        to: new Date(2024, 10, 20),
-        status: 'Declined',
-      },
-      {
-        user: 'James Black',
-        accommodation: { name: 'City Center Apartment' },
-        guests: 4,
-        from: new Date(2024, 9, 1),
-        to: new Date(2024, 9, 5),
-        status: 'Accepted',
-      },
-    ];
+    // Get host ID from authentication service or route params
+    // This example assumes you have it in the auth service
+
+    if (this.hostId) {
+      this.loadPendingReservations();
+    } else {
+      this.error = 'Host ID not found';
+      this.loading = false;
+    }
   }
 
-  approveRequest(request: any): void {
-    this.reservationHistory.push({ ...request, status: 'Accepted' });
-    this.requests = this.requests.filter((r) => r !== request);
+  loadPendingReservations(): void {
+    if (!this.hostId) return;
+
+    this.reservationService.getHostPendingReservations(this.hostId).subscribe({
+      next: (response: any) => {
+        this.requests = response;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load pending reservations: ' + err.message;
+        this.loading = false;
+      },
+    });
   }
 
-  declineRequest(request: any): void {
-    this.reservationHistory.push({ ...request, status: 'Declined' });
-    this.requests = this.requests.filter((r) => r !== request);
+  approveRequest(id: number): void {
+    this.reservationService.hostAcceptReservation(id).subscribe({
+      next: () => window.location.reload(),
+      error: (error) => console.error('Error approving request:', error),
+    });
+  }
+
+  declineRequest(id: number): void {
+    this.reservationService.hostDeclineReservation(id).subscribe({
+      next: () => window.location.reload(),
+      error: (error) => alert(error),
+    });
   }
 }

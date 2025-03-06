@@ -1,5 +1,11 @@
 import { Accommodation } from './accommodation.model';
 
+export enum Status {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  DECLINED = 'DECLINED',
+}
+
 export interface Reservation {
   id: number;
   accommodation: Accommodation;
@@ -7,7 +13,7 @@ export interface Reservation {
   endDate: string;
   numGuests: number;
   userId: number;
-  status: string;
+  status: Status;
   canceled: boolean;
   deleted: boolean;
 }
