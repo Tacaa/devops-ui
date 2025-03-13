@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AccommodationService } from '../services/accommodation/accommodation.service';
 
 import { first, map, Observable } from 'rxjs';
-import { Accommodation } from '../shared/models/accommodation.model';
+import { Accommodation, PriceType } from '../shared/models/accommodation.model';
 import { AccommodationRatingService } from '../services/rating/accommodation-rating.service';
 import { HostRatingService } from '../services/rating/host-rating.service';
 import { ReviewHostDTO } from '../shared/dto/ReviewHostDTO';
@@ -13,6 +13,8 @@ import { HostReviewDialogComponent } from '../dialogs/host-review-dialog/host-re
 import { AccommodationReviewDialogComponent } from '../dialogs/accommodation-review-dialog/accommodation-review-dialog.component';
 import { CreateReservationDTO } from '../shared/dto/CreateReservationDTO';
 import { ReservationService } from '../services/reservation/reservation.service';
+import { AvailabilityService } from '../services/availability/availability.service';
+import { Availability } from '../shared/models/availability.model';
 
 @Component({
   selector: 'app-accommodation-page',
@@ -27,11 +29,14 @@ export class AccommodationPageComponent implements OnInit {
   accommodationId: number = 0; //Will load actual data onInit
   createReservationDto: CreateReservationDTO | undefined;
   loggedInUser: number = 1;
+  availabilities: Availability[] = [];
+  totalPrice: number = 0;
 
   reservationData = {
     numGuest: 2,
     startDate: '2025-05-02',
     endDate: '2025-05-06',
+    PriceType: PriceType.BY_ACCOMMODATION || PriceType.BY_PERSON,
   };
 
   constructor(
@@ -40,13 +45,14 @@ export class AccommodationPageComponent implements OnInit {
     private accommodationRatingService: AccommodationRatingService,
     private hostRatingService: HostRatingService,
     private reservationService: ReservationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private availabilityService: AvailabilityService
   ) {}
 
   createReservation() {
     // Create the DTO from the form data
     const reservationDTO: CreateReservationDTO = {
-      accommodationId: 1, // Fixed value as requested
+      accommodationId: this.accommodationId,
       startDate: this.reservationData.startDate,
       endDate: this.reservationData.endDate,
       numGuests: this.reservationData.numGuest, // Note: form has numGuest but DTO needs numGuests
@@ -64,7 +70,7 @@ export class AccommodationPageComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error creating reservation:', error);
-        alert('Failed to create reservation');
+        alert(`Failed to create reservation: ${error.error.message}`);
       },
     });
   }
@@ -113,6 +119,47 @@ export class AccommodationPageComponent implements OnInit {
     });
   }
 
+  calculateTotalPrice(): void {
+    if (
+      !this.reservationData.startDate ||
+      !this.reservationData.endDate ||
+      !this.reservationData.numGuest
+    ) {
+      this.totalPrice = 0;
+      return;
+    }
+
+    const startDate = new Date(this.reservationData.startDate);
+    const endDate = new Date(this.reservationData.endDate);
+    let totalPrice = 0;
+
+    this.availabilities.forEach((availability) => {
+      const availabilityStart = new Date(availability.startDate);
+      const availabilityEnd = new Date(availability.endDate);
+
+      // Check if selected dates overlap with availability
+      if (endDate >= availabilityStart && startDate <= availabilityEnd) {
+        const overlapStart =
+          startDate > availabilityStart ? startDate : availabilityStart;
+        const overlapEnd =
+          endDate < availabilityEnd ? endDate : availabilityEnd;
+        const days =
+          (overlapEnd.getTime() - overlapStart.getTime()) /
+            (1000 * 60 * 60 * 24) +
+          1;
+
+        if (this.reservationData.PriceType === 'BY_PERSON') {
+          totalPrice +=
+            days * availability.price * this.reservationData.numGuest;
+        } else {
+          totalPrice += days * availability.price;
+        }
+      }
+    });
+
+    this.totalPrice = totalPrice;
+  }
+
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id']) {
@@ -129,6 +176,18 @@ export class AccommodationPageComponent implements OnInit {
           .getReviewsByAccommodationId(accommodationId)
           .subscribe((data) => {
             this.accommodationRatingsData = data;
+          });
+
+        this.availabilityService
+          .getAccommodationAvailabilities(accommodationId)
+          .subscribe({
+            next: (data) => {
+              this.availabilities = data;
+              this.calculateTotalPrice();
+            },
+            error: (err) => {
+              console.error('Error fetching availabilities:', err);
+            },
           });
 
         // Get hostId first, then fetch host ratings

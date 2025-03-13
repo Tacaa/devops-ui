@@ -1,0 +1,81 @@
+<div class="container" *ngIf="accommodation$ | async as accommodation">
+  <div class="component">
+    <h2>{{ accommodation.name }} Availabilities</h2>
+    <p>Price calculation: {{ accommodation.priceType }}</p>
+
+    <table class="availability-table">
+      <thead>
+        <tr>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Price (€)</th>
+          <th>Available</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let availability of availabilities">
+          <td>
+            <input type="date" [(ngModel)]="availability.startDate" />
+          </td>
+          <td>
+            <input type="date" [(ngModel)]="availability.endDate" />
+          </td>
+          <td>
+            <input type="number" [(ngModel)]="availability.price" />
+          </td>
+          <td>
+            <input type="checkbox" [(ngModel)]="availability.available" />
+          </td>
+          <td>
+            <button class="save-btn" (click)="updateAvailability(availability)">
+              Save
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="add-btn" (click)="toggleForm()">
+      {{ showForm ? "Close" : "Add Availability" }}
+    </button>
+
+    <div *ngIf="showForm" class="availability-form">
+      <h3>Add New Availability</h3>
+      <form (submit)="addNewAvailability()">
+        <label>Start Date:</label>
+        <input
+          type="date"
+          [(ngModel)]="newAvailability.startDate"
+          name="startDate"
+          required
+        />
+
+        <label>End Date:</label>
+        <input
+          type="date"
+          [(ngModel)]="newAvailability.endDate"
+          name="endDate"
+          required
+        />
+
+        <label>Price (€):</label>
+        <input
+          type="number"
+          [(ngModel)]="newAvailability.price"
+          name="price"
+          required
+        />
+
+        <label>Available:</label>
+        <input
+          type="checkbox"
+          [(ngModel)]="newAvailability.available"
+          name="available"
+        />
+
+        <button type="submit" class="submit-btn">Save Availability</button>
+      </form>
+    </div>
+  </div>
+</div>

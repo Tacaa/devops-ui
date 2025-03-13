@@ -30,6 +30,7 @@
         required
         type="date"
         #startDateInput="ngModel"
+        (change)="calculateTotalPrice()"
       />
       <div
         *ngIf="
@@ -51,6 +52,7 @@
         required
         type="date"
         #endDateInput="ngModel"
+        (change)="calculateTotalPrice()"
       />
       <div
         *ngIf="
@@ -62,6 +64,9 @@
       </div>
     </div>
   </form>
+  <button class="avButton" routerLink="/availability/{{ accommodationId }}">
+    Edit Availabilities
+  </button>
 </div>
 
 <div class="container" *ngIf="accommodation$ | async as accommodation">
@@ -104,9 +109,8 @@
     </div>
 
     <div class="price">
-      <span
-        >Price Type:
-        <strong>{{ accommodation.priceType.replace("_", " ") }}</strong></span
+      <span>
+        <strong>€{{ totalPrice }}</strong></span
       >
     </div>
 

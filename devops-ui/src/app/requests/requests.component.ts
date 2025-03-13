@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AccommodationService } from '../services/mock/accommodation.service';
-import { Reservation } from '../shared/models/reservation.model';
+import { Reservation, Status } from '../shared/models/reservation.model';
 import { ReservationService } from '../services/reservation/reservation.service';
+import { UserService } from '../services/user/user.service';
+import { User } from '../services/mock/user.service';
 
 @Component({
   selector: 'app-requests',
@@ -10,23 +12,21 @@ import { ReservationService } from '../services/reservation/reservation.service'
 })
 export class RequestsComponent implements OnInit {
   requests: Reservation[] = [];
+  respondedRequests: Reservation[] = [];
   loading = false;
-  actionInProgress = false;
-
+  users: User[] = [];
   error: string | null = null;
   actionMessage: string | null = null;
   hostId: number | null = 16;
 
   constructor(
     private accommodationService: AccommodationService,
+    private userService: UserService,
     private reservationService: ReservationService
   ) {}
 
   ngOnInit(): void {
     this.loading = true;
-
-    // Get host ID from authentication service or route params
-    // This example assumes you have it in the auth service
 
     if (this.hostId) {
       this.loadPendingReservations();
@@ -34,6 +34,14 @@ export class RequestsComponent implements OnInit {
       this.error = 'Host ID not found';
       this.loading = false;
     }
+
+    this.userService.getAllUsers().subscribe((data) => {
+      this.users = data;
+    });
+  }
+
+  getUserUsername(id: number) {
+    return this.users.find((user) => user.id === id)?.username;
   }
 
   loadPendingReservations(): void {
@@ -51,17 +59,35 @@ export class RequestsComponent implements OnInit {
     });
   }
 
-  approveRequest(id: number): void {
-    this.reservationService.hostAcceptReservation(id).subscribe({
-      next: () => window.location.reload(),
-      error: (error) => console.error('Error approving request:', error),
-    });
+  approveRequest(request: Reservation): void {
+    request.status = Status.ACCEPTED;
+    this.respondedRequests.push(request);
+    this.requests = this.requests.filter((r) => r.id !== request.id);
   }
 
-  declineRequest(id: number): void {
-    this.reservationService.hostDeclineReservation(id).subscribe({
-      next: () => window.location.reload(),
-      error: (error) => alert(error),
-    });
+  declineRequest(request: Reservation): void {
+    request.status = Status.DECLINED;
+    this.respondedRequests.push(request);
+    this.requests = this.requests.filter((r) => r.id !== request.id);
+  }
+
+  submitAllRequests(): void {
+    if (this.respondedRequests.length === 0) {
+      this.actionMessage = 'No requests to submit.';
+      alert(this.actionMessage);
+      return;
+    }
+
+    this.reservationService
+      .hostSaveMannuallyApproved(this.respondedRequests)
+      .subscribe({
+        next: () => {
+          this.actionMessage = 'Requests submitted successfully!';
+          this.respondedRequests = []; // Clear the array after submission
+        },
+        error: (error) => {
+          this.error = 'Error submitting requests: ' + error.message;
+        },
+      });
   }
 }

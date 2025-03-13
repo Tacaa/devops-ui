@@ -35,6 +35,13 @@ export class ReservationService {
     return this.http.post<Response>(`${this.apiUrl}/decline/${id}`, null);
   }
 
+  hostSaveMannuallyApproved(reservations: Reservation[]) {
+    return this.http.post<Response>(
+      `${this.apiUrl}/save-manually-approved`,
+      reservations
+    );
+  }
+
   guestCancelReservation(id: number) {
     return this.http.delete<Response>(`${this.apiUrl}/${id}`);
   }

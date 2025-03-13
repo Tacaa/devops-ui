@@ -161,3 +161,7 @@ form input {
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+.avButton:hover {
+  cursor: pointer;
+}

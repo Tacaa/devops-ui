@@ -26,25 +26,28 @@
     </thead>
     <tbody>
       <tr *ngFor="let request of requests">
-        <td>{{ request.userId }}</td>
+        <td style="font-weight: 600">{{ getUserUsername(request.userId) }}</td>
         <td style="font-weight: 600">{{ request.accommodation.name }}</td>
         <td>{{ request.numGuests }} id:{{ request.id }}</td>
         <td>{{ request.startDate | date : "dd/MM/yyyy" }}</td>
         <td>{{ request.endDate | date : "dd/MM/yyyy" }}</td>
         <td>
-          <button class="approve" (click)="approveRequest(request.id)">
+          <button class="approve" (click)="approveRequest(request)">
             Approve
           </button>
-          <button class="decline" (click)="declineRequest(request.id)">
+          <button class="decline" (click)="declineRequest(request)">
             Decline
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-</div>
-<!-- <h2>History</h2>
-  <table class="history-table">
+
+  <h2>Approve / Decline</h2>
+  <div *ngIf="respondedRequests.length === 0" class="no-data">
+    <p>No Accepted or declined requests</p>
+  </div>
+  <table class="approved-table" *ngIf="respondedRequests.length > 0">
     <thead>
       <tr>
         <th>User</th>
@@ -56,20 +59,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let history of reservationHistory">
-        <td>{{ history.user }}</td>
-        <td>{{ history.accommodation.name }}</td>
-        <td>{{ history.guests }}</td>
-        <td>{{ history.from | date : "dd/MM/yyyy" }}</td>
-        <td>{{ history.to | date : "dd/MM/yyyy" }}</td>
+      <tr *ngFor="let request of respondedRequests">
+        <td>{{ getUserUsername(request.userId) }}</td>
+        <td>{{ request.accommodation.name }}</td>
+        <td>{{ request.numGuests }}</td>
+        <td>{{ request.startDate | date : "dd/MM/yyyy" }}</td>
+        <td>{{ request.endDate | date : "dd/MM/yyyy" }}</td>
         <td
           [ngClass]="{
-            accepted: history.status === 'Accepted',
-            declined: history.status === 'Declined'
+            accepted: request.status == 'ACCEPTED',
+            declined: request.status === 'DECLINED'
           }"
         >
-          {{ history.status }}
+          {{ request.status }}
         </td>
       </tr>
     </tbody>
-  </table> -->
+  </table>
+  <button class="blueButton" (click)="submitAllRequests()">Submit</button>
+</div>

@@ -9,6 +9,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { PersonalReservationsComponent } from './personal-reservations/personal-reservations.component';
 import { RequestsComponent } from './requests/requests.component';
 import { CreateAccommodationComponent } from './create-accommodation/create-accommodation.component';
+import { AccommodationAvailabilityComponent } from './accommodation-availability/accommodation-availability.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'reservations', component: PersonalReservationsComponent },
   { path: 'requests', component: RequestsComponent },
   { path: 'create_accommodation', component: CreateAccommodationComponent },
+  { path: 'availability/:id', component: AccommodationAvailabilityComponent },
 ];
 
 @NgModule({
