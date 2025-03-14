@@ -14,6 +14,7 @@ import {
   RequestApproval,
 } from '../shared/models/accommodation.model';
 import { Address } from '../shared/models/address.model';
+import { Router } from '@angular/router';
 
 interface SelectedFile {
   file: File;
@@ -35,7 +36,8 @@ export class CreateAccommodationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private accommodationService: AccommodationService
+    private accommodationService: AccommodationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -119,6 +121,7 @@ export class CreateAccommodationComponent implements OnInit {
         if (response.data) {
           console.log('Accommodation created successfully:', response.data);
           alert('Accommodation created successfully!');
+          this.router.navigate([`/availability/${response.data.id}`]);
           this.accommodationForm.reset();
           this.uploadedFilePaths = [];
         } else {

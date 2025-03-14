@@ -1,6 +1,19 @@
 <div class="component">
   <h2>Pending requests</h2>
-  <table class="approval-table">
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading requests...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error && requests.length === 0" class="no-data">
+    <p>No pending reservation requests found.</p>
+  </div>
+
+  <table *ngIf="requests.length > 0" class="approval-table">
     <thead>
       <tr>
         <th>User</th>
@@ -13,11 +26,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let request of requests">
-        <td>{{ request.user }}</td>
+        <td style="font-weight: 600">{{ getUserUsername(request.userId) }}</td>
         <td style="font-weight: 600">{{ request.accommodation.name }}</td>
-        <td>{{ request.guests }}</td>
-        <td>{{ request.from | date : "dd/MM/yyyy" }}</td>
-        <td>{{ request.to | date : "dd/MM/yyyy" }}</td>
+        <td>{{ request.numGuests }} id:{{ request.id }}</td>
+        <td>{{ request.startDate | date : "dd/MM/yyyy" }}</td>
+        <td>{{ request.endDate | date : "dd/MM/yyyy" }}</td>
         <td>
           <button class="approve" (click)="approveRequest(request)">
             Approve
@@ -29,8 +42,12 @@
       </tr>
     </tbody>
   </table>
-  <h2>History</h2>
-  <table class="history-table">
+
+  <h2>Approve / Decline</h2>
+  <div *ngIf="respondedRequests.length === 0" class="no-data">
+    <p>No Accepted or declined requests</p>
+  </div>
+  <table class="approved-table" *ngIf="respondedRequests.length > 0">
     <thead>
       <tr>
         <th>User</th>
@@ -42,21 +59,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let history of reservationHistory">
-        <td>{{ history.user }}</td>
-        <td>{{ history.accommodation.name }}</td>
-        <td>{{ history.guests }}</td>
-        <td>{{ history.from | date : "dd/MM/yyyy" }}</td>
-        <td>{{ history.to | date : "dd/MM/yyyy" }}</td>
+      <tr *ngFor="let request of respondedRequests">
+        <td>{{ getUserUsername(request.userId) }}</td>
+        <td>{{ request.accommodation.name }}</td>
+        <td>{{ request.numGuests }}</td>
+        <td>{{ request.startDate | date : "dd/MM/yyyy" }}</td>
+        <td>{{ request.endDate | date : "dd/MM/yyyy" }}</td>
         <td
           [ngClass]="{
-            accepted: history.status === 'Accepted',
-            declined: history.status === 'Declined'
+            accepted: request.status == 'ACCEPTED',
+            declined: request.status === 'DECLINED'
           }"
         >
-          {{ history.status }}
+          {{ request.status }}
         </td>
       </tr>
     </tbody>
   </table>
+  <button class="blueButton" (click)="submitAllRequests()">Submit</button>
 </div>

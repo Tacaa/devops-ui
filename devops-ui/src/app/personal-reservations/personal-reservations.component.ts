@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AccommodationService } from '../services/mock/accommodation.service';
+import { Reservation } from '../shared/models/reservation.model';
+import { ReservationService } from '../services/reservation/reservation.service';
+
+interface ApiResponse {
+  data: Reservation[];
+  message: string | null;
+}
 
 @Component({
   selector: 'app-personal-reservations',
@@ -7,46 +14,46 @@ import { AccommodationService } from '../services/mock/accommodation.service';
   styleUrls: ['./personal-reservations.component.css'],
 })
 export class PersonalReservationsComponent implements OnInit {
-  reservations: any[] = [];
+  reservations: Reservation[] = [];
 
-  constructor(private accommodationService: AccommodationService) {}
+  private loggedInUserId = 1; // Replace with actual user ID or authentication service
+
+  constructor(private reservationService: ReservationService) {}
 
   ngOnInit(): void {
-    this.reservations = [
-      {
-        accommodation: { name: 'Hotel Sunrise' },
-        from: new Date(2025, 1, 10),
-        to: new Date(2025, 1, 15),
-        status: 'Accepted',
-      },
-      {
-        accommodation: { name: 'Sea Breeze Resort' },
-        from: new Date(2025, 2, 5),
-        to: new Date(2025, 2, 10),
-        status: 'Pending',
-      },
-      {
-        accommodation: { name: 'Mountain Retreat' },
-        from: new Date(2025, 3, 20),
-        to: new Date(2025, 3, 25),
-        status: 'Declined',
-      },
-      {
-        accommodation: { name: 'Urban Stay' },
-        from: new Date(2025, 4, 12),
-        to: new Date(2025, 4, 18),
-        status: 'Accepted',
-      },
-      {
-        accommodation: { name: 'Countryside Inn' },
-        from: new Date(2025, 5, 8),
-        to: new Date(2025, 5, 12),
-        status: 'Pending',
-      },
-    ];
+    this.loadReservations();
   }
 
-  cancelReservation(reservation: any): void {
-    this.reservations = this.reservations.filter((r) => r !== reservation);
+  loadReservations(): void {
+    this.reservationService
+      .getGuestReservations(this.loggedInUserId)
+      .subscribe({
+        next: (response: ApiResponse) => {
+          this.reservations = response.data;
+        },
+        error: (error) => {
+          console.error('Error fetching reservations:', error);
+        },
+      });
+  }
+
+  cancelReservation(reservation: Reservation): void {
+    this.reservations = this.reservations.filter(
+      (r) => r.id !== reservation.id
+    );
+
+    this.reservationService.guestCancelReservation(reservation.id).subscribe({
+      next: () => {
+        this.loadReservations();
+      },
+      error: (error) => {
+        console.error('Error canceling reservation:', error);
+      },
+    });
+  }
+
+  // Helper method to format status for display
+  formatStatus(status: string): string {
+    return status.charAt(0) + status.slice(1).toLowerCase();
   }
 }
