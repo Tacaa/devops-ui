@@ -50,13 +50,12 @@ export class AccommodationPageComponent implements OnInit {
   ) {}
 
   createReservation() {
-    // Create the DTO from the form data
     const reservationDTO: CreateReservationDTO = {
       accommodationId: this.accommodationId,
       startDate: this.reservationData.startDate,
       endDate: this.reservationData.endDate,
-      numGuests: this.reservationData.numGuest, // Note: form has numGuest but DTO needs numGuests
-      userId: 1, // Fixed value as requested
+      numGuests: this.reservationData.numGuest,
+      userId: 1, // TODO Fixed value ------- CHANGE
     };
 
     // Call the service method

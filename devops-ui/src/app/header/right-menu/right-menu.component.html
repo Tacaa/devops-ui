@@ -5,6 +5,7 @@
     ></a>
     <a routerLink="reservations">Reservations</a>
     <a routerLink="account/1">Account</a>
+    <a (click)="logout()"> Log out</a>
   </ng-container>
 
   <ng-container *ngIf="userType === 'HOST'">
@@ -20,6 +21,7 @@
     ></a>
     <a routerLink="requests">Requests</a>
     <a routerLink="account/1">Account</a>
+    <a (click)="logout()"> Log out</a>
   </ng-container>
 
   <ng-container *ngIf="!userType">

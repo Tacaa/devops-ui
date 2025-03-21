@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-right-menu',
@@ -8,9 +9,13 @@ import { Component } from '@angular/core';
 export class RightMenuComponent {
   userType: 'GUEST' | 'HOST' | null = null; // Default: not logged in
 
-  constructor() {
+  constructor(private authService: AuthService) {
     // Example: Fetch user type from localStorage or API
     //this.userType = localStorage.getItem('userType') as 'GUEST' | 'HOST' | null;
     this.userType = 'HOST';
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
