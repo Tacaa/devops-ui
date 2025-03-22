@@ -24,7 +24,7 @@ export interface HostReviewResponse {
   providedIn: 'root',
 })
 export class HostRatingService {
-  private apiUrl = 'http://localhost:8084/api/host-review';
+  private apiUrl = 'http://localhost:8080/api/host-review';
 
   constructor(private http: HttpClient) {}
 

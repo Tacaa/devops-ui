@@ -7,7 +7,7 @@ import { Availability } from 'src/app/shared/models/availability.model';
   providedIn: 'root',
 })
 export class AvailabilityService {
-  private apiUrl = 'http://localhost:8082/api/availability';
+  private apiUrl = 'http://localhost:8080/api/availability';
 
   constructor(private http: HttpClient) {}
 

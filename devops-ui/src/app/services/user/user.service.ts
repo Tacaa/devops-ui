@@ -7,7 +7,7 @@ import { User } from '../mock/user.service';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8081/api/user';
+  private apiUrl = 'http://localhost:8080/api/user';
 
   constructor(private http: HttpClient) {}
 

@@ -24,7 +24,7 @@ export interface AccommodationReviewResponse {
   providedIn: 'root',
 })
 export class AccommodationRatingService {
-  private apiUrl = 'http://localhost:8084/api/accommodation-review';
+  private apiUrl = 'http://localhost:8080/api/accommodation-review';
 
   constructor(private http: HttpClient) {}
 

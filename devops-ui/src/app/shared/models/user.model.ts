@@ -16,3 +16,23 @@ export interface User {
   deleted: boolean;
   address?: Address; // Optional since it might not always be loaded/present
 }
+
+export interface CurrentUser {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  role: Role;
+  enabled: boolean;
+}
+
+export interface UserRegisterRequest {
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  role: Role;
+  address?: Address;
+}

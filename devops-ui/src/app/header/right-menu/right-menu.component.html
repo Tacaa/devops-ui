@@ -1,27 +1,26 @@
 <div class="component">
-  <ng-container *ngIf="userType === 'GUEST'">
-    <a routerLink="notifications"
-      ><i class="fa fa-bell" aria-hidden="true"></i
-    ></a>
+  <ng-container *ngIf="userType === Role.GUEST">
+    <a routerLink="notifications">
+      <i class="fa fa-bell" aria-hidden="true"></i>
+    </a>
     <a routerLink="reservations">Reservations</a>
     <a routerLink="account/1">Account</a>
-    <a (click)="logout()"> Log out</a>
+    <a (click)="logout()">Log out</a>
   </ng-container>
 
-  <ng-container *ngIf="userType === 'HOST'">
+  <ng-container *ngIf="userType === Role.HOST">
     <a
-      style="font-size: larger; font-weight: 600"
       routerLink="create_accommodation"
+      style="font-size: larger; font-weight: 600"
     >
-      +
-      <i class="fa fa-bed" aria-hidden="true"></i
-    ></a>
-    <a routerLink="notifications"
-      ><i class="fa fa-bell" aria-hidden="true"></i
-    ></a>
+      + <i class="fa fa-bed" aria-hidden="true"></i>
+    </a>
+    <a routerLink="notifications">
+      <i class="fa fa-bell" aria-hidden="true"></i>
+    </a>
     <a routerLink="requests">Requests</a>
     <a routerLink="account/1">Account</a>
-    <a (click)="logout()"> Log out</a>
+    <a (click)="logout()">Log out</a>
   </ng-container>
 
   <ng-container *ngIf="!userType">

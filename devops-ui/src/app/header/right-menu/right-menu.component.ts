@@ -1,21 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CurrentUser, Role } from 'src/app/shared/models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-right-menu',
   templateUrl: './right-menu.component.html',
   styleUrls: ['./right-menu.component.css'],
 })
-export class RightMenuComponent {
-  userType: 'GUEST' | 'HOST' | null = null; // Default: not logged in
+export class RightMenuComponent implements OnInit, OnDestroy {
+  userType: Role | undefined = undefined;
+  currentUser: CurrentUser | null = null;
+  private userSubscription!: Subscription;
 
-  constructor(private authService: AuthService) {
-    // Example: Fetch user type from localStorage or API
-    //this.userType = localStorage.getItem('userType') as 'GUEST' | 'HOST' | null;
-    this.userType = 'HOST';
+  // ✅ Expose Role enum for the template
+  public Role = Role;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+      this.userType = user?.role;
+    });
   }
 
   logout() {
     this.authService.logout();
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 }
