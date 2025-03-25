@@ -15,6 +15,7 @@ import {
 } from '../shared/models/accommodation.model';
 import { Address } from '../shared/models/address.model';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
 
 interface SelectedFile {
   file: File;
@@ -37,7 +38,8 @@ export class CreateAccommodationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private accommodationService: AccommodationService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +54,7 @@ export class CreateAccommodationComponent implements OnInit {
       maxGuests: [2, [Validators.required, Validators.min(1)]],
       priceType: ['', Validators.required],
       requestApproval: ['', Validators.required],
-      hostId: [1, Validators.required],
+      hostId: [this.authService.getUserId() as number, Validators.required],
     });
   }
 

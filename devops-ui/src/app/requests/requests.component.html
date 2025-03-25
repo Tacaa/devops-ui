@@ -28,7 +28,7 @@
       <tr *ngFor="let request of requests">
         <td style="font-weight: 600">{{ getUserUsername(request.userId) }}</td>
         <td style="font-weight: 600">{{ request.accommodation.name }}</td>
-        <td>{{ request.numGuests }} id:{{ request.id }}</td>
+        <td>{{ request.numGuests }}</td>
         <td>{{ request.startDate | date : "dd/MM/yyyy" }}</td>
         <td>{{ request.endDate | date : "dd/MM/yyyy" }}</td>
         <td>
