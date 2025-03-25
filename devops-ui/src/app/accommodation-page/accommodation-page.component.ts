@@ -15,6 +15,7 @@ import { CreateReservationDTO } from '../shared/dto/CreateReservationDTO';
 import { ReservationService } from '../services/reservation/reservation.service';
 import { AvailabilityService } from '../services/availability/availability.service';
 import { Availability } from '../shared/models/availability.model';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-accommodation-page',
@@ -28,9 +29,10 @@ export class AccommodationPageComponent implements OnInit {
   hostId: number = 0; //Will load actual data onInit
   accommodationId: number = 0; //Will load actual data onInit
   createReservationDto: CreateReservationDTO | undefined;
-  loggedInUser: number = 1;
   availabilities: Availability[] = [];
   totalPrice: number = 0;
+  userRole: string | null = this.authService.getUserRole();
+  userId: number | null = this.authService.getUserId();
 
   reservationData = {
     numGuest: 2,
@@ -46,7 +48,8 @@ export class AccommodationPageComponent implements OnInit {
     private hostRatingService: HostRatingService,
     private reservationService: ReservationService,
     private dialog: MatDialog,
-    private availabilityService: AvailabilityService
+    private availabilityService: AvailabilityService,
+    private authService: AuthService
   ) {}
 
   createReservation() {
@@ -55,7 +58,7 @@ export class AccommodationPageComponent implements OnInit {
       startDate: this.reservationData.startDate,
       endDate: this.reservationData.endDate,
       numGuests: this.reservationData.numGuest,
-      userId: 1, // TODO Fixed value ------- CHANGE
+      userId: this.authService.getUserId(),
     };
 
     // Call the service method

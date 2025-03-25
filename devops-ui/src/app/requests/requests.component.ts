@@ -3,7 +3,7 @@ import { AccommodationService } from '../services/mock/accommodation.service';
 import { Reservation, Status } from '../shared/models/reservation.model';
 import { ReservationService } from '../services/reservation/reservation.service';
 import { UserService } from '../services/user/user.service';
-import { User } from '../services/mock/user.service';
+import { User } from '../shared/models/user.model';
 
 @Component({
   selector: 'app-requests',

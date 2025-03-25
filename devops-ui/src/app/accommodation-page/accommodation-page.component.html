@@ -64,9 +64,6 @@
       </div>
     </div>
   </form>
-  <button class="avButton" routerLink="/availability/{{ accommodationId }}">
-    Edit Availabilities
-  </button>
 </div>
 
 <div class="container" *ngIf="accommodation$ | async as accommodation">
@@ -121,7 +118,27 @@
       >
     </div>
 
-    <button (click)="createReservation()">Reserve</button>
+    <ng-container
+      *ngIf="userRole === 'HOST' && userId === hostId; else otherRoleButtons"
+    >
+      <button [routerLink]="['/availability', accommodationId]">
+        Edit availabilities
+      </button>
+    </ng-container>
+
+    <ng-template #otherRoleButtons>
+      <ng-container [ngSwitch]="userRole">
+        <!-- GUEST user scenario -->
+        <button *ngSwitchCase="'GUEST'" (click)="createReservation()">
+          Reserve
+        </button>
+
+        <!-- Null user scenario -->
+        <button *ngSwitchCase="null" [routerLink]="['/registration']">
+          Sign up to reserve
+        </button>
+      </ng-container>
+    </ng-template>
   </div>
 </div>
 

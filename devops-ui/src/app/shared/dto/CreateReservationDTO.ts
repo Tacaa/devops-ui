@@ -3,5 +3,5 @@ export interface CreateReservationDTO {
   startDate: string;
   endDate: string;
   numGuests: number;
-  userId: number;
+  userId: number | null;
 }

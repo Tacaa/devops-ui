@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { User } from '../mock/user.service';
+import {
+  UpdateUserDTO,
+  User,
+  UserRegisterRequest,
+} from 'src/app/shared/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +21,13 @@ export class UserService {
 
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
+  }
+
+  updateUser(user: UpdateUserDTO, id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, user);
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete<Response>(`${this.apiUrl}/${id}`);
   }
 }

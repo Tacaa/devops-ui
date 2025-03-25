@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'accommodation/:id', component: AccommodationPageComponent },
   { path: 'registration', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'account/:id', component: AccountComponent },
+  { path: 'account', component: AccountComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'reservations', component: PersonalReservationsComponent },
   { path: 'requests', component: RequestsComponent },

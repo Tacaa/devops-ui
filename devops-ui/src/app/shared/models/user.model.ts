@@ -36,3 +36,12 @@ export interface UserRegisterRequest {
   role: Role;
   address?: Address;
 }
+
+export interface UpdateUserDTO {
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  password: string;
+  address?: Address;
+}
