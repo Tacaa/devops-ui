@@ -1,31 +1,55 @@
-import { Component } from '@angular/core';
-import { NotificationService } from '../services/mock/notification.service';
+import { Component, OnInit } from '@angular/core';
+import { Notification as AppNotification } from '../shared/models/notification.model';
+import { NotificationService } from '../services/notification/notification.service';
+import { NotificationsPreferences } from '../shared/models/notification-preferences.model';
+import { NotificationPreferenceService } from '../services/notification/notification-preference.service';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css'],
 })
-export class NotificationsComponent {
-  hostOptions = [
-    'Reservation request created',
-    'Reservation Cancelled',
-    'Personal Ratings',
-    'Accommodation Ratings',
-  ];
-  guestOptions = ['Reservation response by host'];
+export class NotificationsComponent implements OnInit {
+  notifications: AppNotification[] = [];
+  preferences: NotificationsPreferences | null = null;
 
-  selectedTypes: string[] = [...this.hostOptions, ...this.guestOptions];
-  notifications$ = this.notificationService.notifications$;
+  constructor(
+    private notificationService: NotificationService,
+    private preferenceService: NotificationPreferenceService
+  ) {}
 
-  constructor(private notificationService: NotificationService) {}
+  ngOnInit(): void {
+    this.loadNotifications();
+    this.loadPreferences();
+  }
 
-  updateFilter(type: string, event: any) {
-    if (event.target.checked) {
-      this.selectedTypes.push(type);
-    } else {
-      this.selectedTypes = this.selectedTypes.filter((t) => t !== type);
+  loadNotifications() {
+    this.notificationService.getUserNotifications().subscribe((data) => {
+      this.notifications = data;
+
+      const unread = data.filter((n) => !n.read);
+      if (unread.length > 0) {
+        const updated = unread.map((n) => ({ ...n, read: true }));
+        this.notificationService.setToRead(updated).subscribe();
+      }
+    });
+  }
+
+  loadPreferences() {
+    this.preferenceService.getPreferences().subscribe((pref) => {
+      this.preferences = pref;
+    });
+  }
+
+  submitPreferences() {
+    if (this.preferences) {
+      this.preferenceService.updatePreferences(this.preferences).subscribe({
+        next: () => {
+          alert('Preferences updated!');
+          window.location.reload();
+        },
+        error: (err) => console.error('Update failed', err),
+      });
     }
-    this.notificationService.filterNotifications(this.selectedTypes);
   }
 }

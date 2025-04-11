@@ -1,26 +1,56 @@
 <div class="component">
-  <div class="filter-container">
-    <h3>Filter Notifications</h3>
-    <label *ngFor="let option of hostOptions">
-      <input
-        type="checkbox"
-        [checked]="selectedTypes.includes(option)"
-        (change)="updateFilter(option, $event)"
-      />
-      {{ option }}
-    </label>
-    <label *ngFor="let option of guestOptions">
-      <input
-        type="checkbox"
-        [checked]="selectedTypes.includes(option)"
-        (change)="updateFilter(option, $event)"
-      />
-      {{ option }}
-    </label>
+  <div class="preferences" *ngIf="preferences">
+    <h3>Notification Preferences</h3>
+
+    <!-- Guest view -->
+    <div *ngIf="preferences.guest">
+      <label>
+        <input type="checkbox" [(ngModel)]="preferences.hostResponseEnabled" />
+        Host Response Enabled
+      </label>
+    </div>
+
+    <!-- Host view -->
+    <div *ngIf="!preferences.guest">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="preferences.reservationRequestEnabled"
+        />
+        Reservation Request Enabled
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="preferences.reservationCancelationEnabled"
+        />
+        Reservation Cancelation Enabled
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="preferences.hostReviewEnabled" />
+        Host Review Enabled
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="preferences.accommodationReviewEnabled"
+        />
+        Accommodation Review Enabled
+      </label>
+    </div>
+
+    <button (click)="submitPreferences()">Submit Preferences</button>
+
+    <h3>Notifications</h3>
+
+    <table>
+      <tr *ngFor="let notification of notifications">
+        <td
+          [ngStyle]="{ 'font-weight': notification.read ? 'normal' : 'bold' }"
+        >
+          {{ notification.title }} : {{ notification.content }}
+        </td>
+      </tr>
+    </table>
   </div>
-  <table>
-    <tr *ngFor="let notification of notifications$ | async">
-      <td>{{ notification.message }}</td>
-    </tr>
-  </table>
 </div>
