@@ -44,7 +44,7 @@
     <h3>Notifications</h3>
 
     <table>
-      <tr *ngFor="let notification of notifications">
+      <tr *ngFor="let notification of notifications.slice().reverse()">
         <td
           [ngStyle]="{ 'font-weight': notification.read ? 'normal' : 'bold' }"
         >
