@@ -24,8 +24,13 @@
           </li>
         </ul>
         <p class="price">
-          Price:
-          <strong>{{ accommodation.priceType.replace("BY_", "PER ") }}</strong>
+          Pricing type:
+          <strong>{{
+            accommodation.priceType
+              .replace("BY_", "Per ")
+              .replace("ACCOMMODATION", "Night")
+              .replace("PERSON", "Person")
+          }}</strong>
         </p>
       </div>
     </li>

@@ -152,9 +152,29 @@
     [ratings]="accommodationRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
-<button class="rateButton" (click)="openAccommodationReviewDialog()">
-  Rate accommodation
-</button>
+
+<ng-container [ngSwitch]="userRole">
+  <!-- GUEST user scenario -->
+  <button
+    *ngSwitchCase="'GUEST'"
+    class="rateButton"
+    (click)="openAccommodationReviewDialog()"
+  >
+    Rate accommodation
+  </button>
+
+  <!-- HOST user scenario -->
+  <div *ngSwitchCase="'HOST'"></div>
+
+  <!-- Null user scenario -->
+  <button
+    *ngSwitchCase="null"
+    [routerLink]="['/registration']"
+    class="rateButton"
+  >
+    Sign up/Visit to rate
+  </button>
+</ng-container>
 
 <ng-container *ngIf="!hostRatingsData">
   <h2 style="margin-left: 10rem">No current host reviews</h2>
@@ -166,4 +186,26 @@
     [ratings]="hostRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
-<button class="rateButton" (click)="openHostReviewDialog()">Rate host</button>
+
+<ng-container [ngSwitch]="userRole">
+  <!-- GUEST user scenario -->
+  <button
+    *ngSwitchCase="'GUEST'"
+    class="rateButton"
+    (click)="openHostReviewDialog()"
+  >
+    Rate accommodation
+  </button>
+
+  <!-- HOST user scenario -->
+  <div *ngSwitchCase="'HOST'"></div>
+
+  <!-- Null user scenario -->
+  <button
+    *ngSwitchCase="null"
+    [routerLink]="['/registration']"
+    class="rateButton"
+  >
+    Sign up/Visit to rate
+  </button>
+</ng-container>

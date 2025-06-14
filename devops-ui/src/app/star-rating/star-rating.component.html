@@ -27,7 +27,7 @@
     <tbody>
       <tr *ngFor="let rating of ratings">
         <td style="width: 600px">
-          {{ getUserUsername(rating.reviewerId) }}
+          {{ getUserUsername(rating.reviewerId) ?? "*********" }}
           <ng-container *ngIf="rating.reviewerId === loggedInUserId">
             <div
               style="
