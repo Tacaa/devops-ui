@@ -64,9 +64,6 @@
       </div>
     </div>
   </form>
-  <button class="avButton" routerLink="/availability/{{ accommodationId }}">
-    Edit Availabilities
-  </button>
 </div>
 
 <div class="container" *ngIf="accommodation$ | async as accommodation">
@@ -121,7 +118,27 @@
       >
     </div>
 
-    <button (click)="createReservation()">Reserve</button>
+    <ng-container
+      *ngIf="userRole === 'HOST' && userId === hostId; else otherRoleButtons"
+    >
+      <button [routerLink]="['/availability', accommodationId]">
+        Edit availabilities
+      </button>
+    </ng-container>
+
+    <ng-template #otherRoleButtons>
+      <ng-container [ngSwitch]="userRole">
+        <!-- GUEST user scenario -->
+        <button *ngSwitchCase="'GUEST'" (click)="createReservation()">
+          Reserve
+        </button>
+
+        <!-- Null user scenario -->
+        <button *ngSwitchCase="null" [routerLink]="['/registration']">
+          Sign up to reserve
+        </button>
+      </ng-container>
+    </ng-template>
   </div>
 </div>
 
@@ -135,9 +152,29 @@
     [ratings]="accommodationRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
-<button class="rateButton" (click)="openAccommodationReviewDialog()">
-  Rate accommodation
-</button>
+
+<ng-container [ngSwitch]="userRole">
+  <!-- GUEST user scenario -->
+  <button
+    *ngSwitchCase="'GUEST'"
+    class="rateButton"
+    (click)="openAccommodationReviewDialog()"
+  >
+    Rate accommodation
+  </button>
+
+  <!-- HOST user scenario -->
+  <div *ngSwitchCase="'HOST'"></div>
+
+  <!-- Null user scenario -->
+  <button
+    *ngSwitchCase="null"
+    [routerLink]="['/registration']"
+    class="rateButton"
+  >
+    Sign up/Visit to rate
+  </button>
+</ng-container>
 
 <ng-container *ngIf="!hostRatingsData">
   <h2 style="margin-left: 10rem">No current host reviews</h2>
@@ -149,4 +186,26 @@
     [ratings]="hostRatingsData.reviews"
   ></app-star-rating>
 </ng-container>
-<button class="rateButton" (click)="openHostReviewDialog()">Rate host</button>
+
+<ng-container [ngSwitch]="userRole">
+  <!-- GUEST user scenario -->
+  <button
+    *ngSwitchCase="'GUEST'"
+    class="rateButton"
+    (click)="openHostReviewDialog()"
+  >
+    Rate accommodation
+  </button>
+
+  <!-- HOST user scenario -->
+  <div *ngSwitchCase="'HOST'"></div>
+
+  <!-- Null user scenario -->
+  <button
+    *ngSwitchCase="null"
+    [routerLink]="['/registration']"
+    class="rateButton"
+  >
+    Sign up/Visit to rate
+  </button>
+</ng-container>

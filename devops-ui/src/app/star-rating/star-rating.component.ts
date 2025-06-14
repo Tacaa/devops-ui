@@ -2,11 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AccommodationRatingService } from '../services/rating/accommodation-rating.service';
 import { AccommodationReview } from '../shared/models/accommodation-review.model';
 import { UserService } from '../services/user/user.service';
-import { User } from '../services/mock/user.service';
+
 import { HostRatingService } from '../services/rating/host-rating.service';
 import { AccommodationEditReviewDialogComponent } from '../dialogs/accommodation-edit-review-dialog/accommodation-edit-review-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HostEditReviewDialogComponent } from '../dialogs/host-edit-review-dialog/host-edit-review-dialog.component';
+import { AuthService } from '../services/auth/auth.service';
+import { User } from '../shared/models/user.model';
 
 interface Rating {
   username: string;
@@ -31,13 +33,14 @@ export class StarRatingComponent implements OnInit {
   users: User[] = [];
 
   //Temporary, should work with actual logged in user
-  loggedInUserId: number = 1;
+  loggedInUserId: number | null = this.authService.getUserId();
 
   constructor(
     private userService: UserService,
     private accommodationRatingService: AccommodationRatingService,
     private hostRatingService: HostRatingService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   getStarArray(rating: number): boolean[] {

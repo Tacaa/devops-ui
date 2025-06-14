@@ -13,7 +13,7 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8082/api/reservation';
+  private apiUrl = 'http://localhost:8080/api/reservation';
 
   constructor(private http: HttpClient) {}
 
@@ -54,6 +54,6 @@ export class ReservationService {
     return this.http.post<{
       message: string | null;
       data: Reservation | null;
-    }>(`${this.apiUrl}/`, createReservationDTO, { observe: 'response' });
+    }>(`${this.apiUrl}`, createReservationDTO, { observe: 'response' });
   }
 }

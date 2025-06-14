@@ -22,7 +22,7 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PersonalReservationsComponent } from './personal-reservations/personal-reservations.component';
 import { RequestsComponent } from './requests/requests.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CreateAccommodationComponent } from './create-accommodation/create-accommodation.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,6 +36,7 @@ import { AccommodationReviewDialogComponent } from './dialogs/accommodation-revi
 import { AccommodationEditReviewDialogComponent } from './dialogs/accommodation-edit-review-dialog/accommodation-edit-review-dialog.component';
 import { HostEditReviewDialogComponent } from './dialogs/host-edit-review-dialog/host-edit-review-dialog.component';
 import { AccommodationAvailabilityComponent } from './accommodation-availability/accommodation-availability.component'; // Required for <mat-option>
+import { AuthInterceptor } from './services/auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,9 @@ import { AccommodationAvailabilityComponent } from './accommodation-availability
     BrowserModule,
   ],
   entryComponents: [DeleteAccountDialog],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

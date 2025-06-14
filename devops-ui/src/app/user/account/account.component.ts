@@ -1,13 +1,21 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/services/mock/user.service';
-import { User } from 'src/app/services/mock/user.service';
+import { UserService } from 'src/app/services/user/user.service';
+
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Observable } from 'rxjs';
+import {
+  User,
+  UserRegisterRequest,
+  Role,
+  UpdateUserDTO,
+} from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-account',
@@ -16,6 +24,7 @@ import {
 })
 export class AccountComponent implements OnInit {
   isEditing = false;
+  user$: Observable<User> | undefined;
   user: User | undefined;
 
   accountForm = new FormGroup({
@@ -35,6 +44,14 @@ export class AccountComponent implements OnInit {
       Validators.required,
       Validators.email,
     ]),
+    id: new FormControl({ value: 0, disabled: true }, Validators.required),
+    street: new FormControl({ value: '', disabled: true }, Validators.required),
+    number: new FormControl({ value: 0, disabled: true }, Validators.required),
+    city: new FormControl({ value: '', disabled: true }, Validators.required),
+    country: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
     password: new FormControl(
       { value: '', disabled: true },
       Validators.required
@@ -44,20 +61,28 @@ export class AccountComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const id = Number(params.get('id'));
-      this.user = this.userService.getUserById(id);
+    const id = Number(this.authService.getUserId());
+    console.log(id);
 
-      if (this.user) {
+    this.user$ = this.userService.getUserById(id);
+    this.user$.subscribe((user) => {
+      if (user) {
+        this.user = user;
         this.accountForm.patchValue({
-          first_name: this.user.firstName,
-          last_name: this.user.lastName,
-          username: this.user.username,
-          email: `${this.user.username}@example.com`, // Example email generation
+          first_name: user.firstName,
+          last_name: user.lastName,
+          username: user.username,
+          email: user.email,
+          id: user.address?.id,
+          street: user.address?.street,
+          number: user.address?.number,
+          city: user.address?.city,
+          country: user.address?.country,
         });
       }
     });
@@ -68,16 +93,49 @@ export class AccountComponent implements OnInit {
     this.isEditing ? this.accountForm.enable() : this.accountForm.disable();
   }
 
+  getRoleAsRole() {
+    const role = this.authService.getUserRole() as string;
+    if (role === 'GUEST') {
+      return Role.GUEST;
+    } else if (role === 'HOST') {
+      return Role.HOST;
+    } else return console.error('Error');
+  }
+
   onSubmit() {
     if (this.accountForm.valid && this.user) {
       const formValue = this.accountForm.value;
 
-      if (!formValue.password) {
-        delete formValue.password;
-      }
+      const updateRequest: UpdateUserDTO = {
+        username: formValue.username as string,
+        password: formValue.password as string,
+        firstname: formValue.first_name as string,
+        lastname: formValue.last_name as string,
+        email: formValue.email as string,
+        address: {
+          id: formValue.id as number,
+          street: formValue.street as string,
+          number: Number(formValue.number as number),
+          city: formValue.city as string,
+          country: formValue.country as string,
+        },
+      };
 
-      console.log('Updated account data:', formValue);
-      this.toggleEdit(); // Disable fields after saving
+      this.userService
+        .updateUser(updateRequest, this.authService.getUserId() as number)
+        .subscribe(
+          () => {
+            console.log('Account updated successfully');
+            alert('Account updated successfully');
+            this.toggleEdit(); // Disable fields after saving
+          },
+          (error) => {
+            console.error('Error updating account', error);
+            alert(error.error.message);
+          }
+        );
+    } else {
+      console.log('Form is invalid');
     }
   }
 
@@ -89,7 +147,17 @@ export class AccountComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Account deleted'); // Handle delete logic here
+        const deleteUser = this.authService.getUserId() as number;
+        this.userService.deleteUser(deleteUser).subscribe({
+          next: (response) => {
+            console.log('User deleted successfully', response);
+            this.authService.logout();
+          },
+          error: (error) => {
+            console.error('Error deleting user', error);
+            alert(`Cannot delete: ${error.error.message}!`);
+          },
+        });
       } else {
         console.log('Deletion canceled');
       }

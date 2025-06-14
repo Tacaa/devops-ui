@@ -8,6 +8,36 @@
     >
       <input
         type="text"
+        formControlName="username"
+        placeholder="Username"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.username.invalid &&
+          registerForm.controls.username.touched
+        "
+        class="error"
+      >
+        Username is required
+      </div>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.password.invalid &&
+          registerForm.controls.password.touched
+        "
+        class="error"
+      >
+        Password is required
+      </div>
+      <input
+        type="text"
         formControlName="first_name"
         placeholder="First Name"
         class="register-input"
@@ -39,22 +69,6 @@
       </div>
 
       <input
-        type="text"
-        formControlName="username"
-        placeholder="Username"
-        class="register-input"
-      />
-      <div
-        *ngIf="
-          registerForm.controls.username.invalid &&
-          registerForm.controls.username.touched
-        "
-        class="error"
-      >
-        Username is required
-      </div>
-
-      <input
         type="email"
         formControlName="email"
         placeholder="Email"
@@ -70,20 +84,70 @@
         Valid Email is required
       </div>
 
+      <!-- Address Fields -->
+      <p style="margin: 0 0.2rem">Adress:</p>
       <input
-        type="password"
-        formControlName="password"
-        placeholder="Password"
+        type="text"
+        formControlName="street"
+        placeholder="Street"
         class="register-input"
       />
       <div
         *ngIf="
-          registerForm.controls.password.invalid &&
-          registerForm.controls.password.touched
+          registerForm.controls.street.invalid &&
+          registerForm.controls.street.touched
         "
         class="error"
       >
-        Password is required
+        Street is required
+      </div>
+
+      <input
+        type="number"
+        formControlName="number"
+        placeholder="Number"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.number.invalid &&
+          registerForm.controls.number.touched
+        "
+        class="error"
+      >
+        Number is required
+      </div>
+
+      <input
+        type="text"
+        formControlName="city"
+        placeholder="City"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.city.invalid &&
+          registerForm.controls.city.touched
+        "
+        class="error"
+      >
+        City is required
+      </div>
+
+      <input
+        type="text"
+        formControlName="country"
+        placeholder="Country"
+        class="register-input"
+      />
+      <div
+        *ngIf="
+          registerForm.controls.country.invalid &&
+          registerForm.controls.country.touched
+        "
+        class="error"
+      >
+        Country is required
       </div>
 
       <button
