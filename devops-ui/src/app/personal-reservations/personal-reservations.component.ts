@@ -38,16 +38,13 @@ export class PersonalReservationsComponent implements OnInit {
   }
 
   cancelReservation(reservation: Reservation): void {
-    this.reservations = this.reservations.filter(
-      (r) => r.id !== reservation.id
-    );
-
     this.reservationService.guestCancelReservation(reservation.id).subscribe({
       next: () => {
         this.loadReservations();
       },
       error: (error) => {
         console.error('Error canceling reservation:', error);
+        alert('Error: ' + error.error.message);
       },
     });
   }
