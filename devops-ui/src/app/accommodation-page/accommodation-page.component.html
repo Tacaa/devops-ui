@@ -131,13 +131,33 @@
     <ng-template #otherRoleButtons>
       <ng-container [ngSwitch]="userRole">
         <!-- GUEST user scenario -->
-        <button *ngSwitchCase="'GUEST'" (click)="createReservation()">
-          Reserve
+        <button
+          *ngSwitchCase="'GUEST'"
+          (click)="createReservation()"
+          [disabled]="
+            !isAccommodationAvailable ||
+            reservationData.numGuest >
+              ((accommodation$ | async)?.maxGuests || 0)
+          "
+        >
+          <span *ngIf="isAccommodationAvailable; else notAvailableText"
+            >Reserve</span
+          >
+          <ng-template #notAvailableText>{{ availabilityMessage }}</ng-template>
         </button>
 
         <!-- Null user scenario -->
-        <button *ngSwitchCase="null" [routerLink]="['/registration']">
-          Sign up to reserve
+        <button
+          *ngSwitchCase="null"
+          [routerLink]="['/registration']"
+          [disabled]="!isAccommodationAvailable"
+        >
+          <span *ngIf="isAccommodationAvailable; else signUpNotAvailable"
+            >Sign up to reserve</span
+          >
+          <ng-template #signUpNotAvailable>{{
+            availabilityMessage
+          }}</ng-template>
         </button>
       </ng-container>
     </ng-template>
