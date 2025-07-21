@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'requests', component: RequestsComponent },
   { path: 'create_accommodation', component: CreateAccommodationComponent },
   { path: 'availability/:id', component: AccommodationAvailabilityComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

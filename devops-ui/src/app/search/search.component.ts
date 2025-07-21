@@ -13,8 +13,8 @@ export class SearchComponent implements OnInit {
     city: 'New York',
     country: 'USA',
     numGuest: 2,
-    startDate: '2025-05-02',
-    endDate: '2025-05-06',
+    startDate: '2025-08-29',
+    endDate: '2025-08-30',
   };
 
   constructor(
