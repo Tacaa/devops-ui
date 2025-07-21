@@ -36,9 +36,8 @@ export class AccommodationPageComponent implements OnInit {
 
   reservationData = {
     numGuest: 2,
-    startDate: '2025-05-02',
-    endDate: '2025-05-06',
-    PriceType: PriceType.BY_ACCOMMODATION || PriceType.BY_PERSON,
+    startDate: '2025-08-27',
+    endDate: '2025-08-30',
   };
 
   constructor(
@@ -125,7 +124,8 @@ export class AccommodationPageComponent implements OnInit {
     if (
       !this.reservationData.startDate ||
       !this.reservationData.endDate ||
-      !this.reservationData.numGuest
+      !this.reservationData.numGuest ||
+      this.availabilities.length === 0
     ) {
       this.totalPrice = 0;
       return;
@@ -135,31 +135,40 @@ export class AccommodationPageComponent implements OnInit {
     const endDate = new Date(this.reservationData.endDate);
     let totalPrice = 0;
 
-    this.availabilities.forEach((availability) => {
-      const availabilityStart = new Date(availability.startDate);
-      const availabilityEnd = new Date(availability.endDate);
+    // Get the accommodation to check price type
+    if (this.accommodation$) {
+      this.accommodation$.pipe(first()).subscribe((accommodation) => {
+        if (accommodation) {
+          this.availabilities.forEach((availability) => {
+            const availabilityStart = new Date(availability.startDate);
+            const availabilityEnd = new Date(availability.endDate);
 
-      // Check if selected dates overlap with availability
-      if (endDate >= availabilityStart && startDate <= availabilityEnd) {
-        const overlapStart =
-          startDate > availabilityStart ? startDate : availabilityStart;
-        const overlapEnd =
-          endDate < availabilityEnd ? endDate : availabilityEnd;
-        const days =
-          (overlapEnd.getTime() - overlapStart.getTime()) /
-            (1000 * 60 * 60 * 24) +
-          1;
+            // Check if selected dates overlap with availability
+            if (endDate >= availabilityStart && startDate <= availabilityEnd) {
+              const overlapStart =
+                startDate > availabilityStart ? startDate : availabilityStart;
+              const overlapEnd =
+                endDate < availabilityEnd ? endDate : availabilityEnd;
 
-        if (this.reservationData.PriceType === 'BY_PERSON') {
-          totalPrice +=
-            days * availability.price * this.reservationData.numGuest;
-        } else {
-          totalPrice += days * availability.price;
+              // Calculate nights
+              const nights = Math.ceil(
+                (overlapEnd.getTime() - overlapStart.getTime()) /
+                  (1000 * 60 * 60 * 24)
+              );
+
+              if (accommodation.priceType === PriceType.BY_PERSON) {
+                totalPrice +=
+                  nights * availability.price * this.reservationData.numGuest;
+              } else {
+                totalPrice += nights * availability.price;
+              }
+            }
+          });
+
+          this.totalPrice = totalPrice;
         }
-      }
-    });
-
-    this.totalPrice = totalPrice;
+      });
+    }
   }
 
   ngOnInit(): void {

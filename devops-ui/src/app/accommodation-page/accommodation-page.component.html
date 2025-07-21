@@ -8,8 +8,10 @@
         name="numGuest"
         required
         type="number"
-        min="1"
+        [min]="(accommodation$ | async)?.minGuests || 1"
+        [max]="(accommodation$ | async)?.maxGuests || 100"
         #guestsInput="ngModel"
+        (change)="calculateTotalPrice()"
       />
       <div
         *ngIf="
