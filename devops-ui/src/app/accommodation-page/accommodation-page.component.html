@@ -8,8 +8,10 @@
         name="numGuest"
         required
         type="number"
-        min="1"
+        [min]="(accommodation$ | async)?.minGuests || 1"
+        [max]="(accommodation$ | async)?.maxGuests || 100"
         #guestsInput="ngModel"
+        (change)="calculateTotalPrice()"
       />
       <div
         *ngIf="
@@ -106,9 +108,12 @@
     </div>
 
     <div class="price">
-      <span>
-        <strong>€{{ totalPrice }}</strong></span
-      >
+      <span *ngIf="isAccommodationAvailable">
+        <strong>€{{ totalPrice }}</strong>
+      </span>
+      <span *ngIf="!isAccommodationAvailable" style="color: #ff6b6b">
+        <strong>{{ availabilityMessage }}</strong>
+      </span>
     </div>
 
     <div class="approval">
@@ -129,13 +134,31 @@
     <ng-template #otherRoleButtons>
       <ng-container [ngSwitch]="userRole">
         <!-- GUEST user scenario -->
-        <button *ngSwitchCase="'GUEST'" (click)="createReservation()">
-          Reserve
+        <button
+          *ngSwitchCase="'GUEST'"
+          (click)="createReservation()"
+          [disabled]="
+            !isAccommodationAvailable ||
+            reservationData.numGuest >
+              ((accommodation$ | async)?.maxGuests || 0)
+          "
+        >
+          <span *ngIf="isAccommodationAvailable">Reserve</span>
+          <span *ngIf="!isAccommodationAvailable">{{
+            availabilityMessage
+          }}</span>
         </button>
 
         <!-- Null user scenario -->
-        <button *ngSwitchCase="null" [routerLink]="['/registration']">
-          Sign up to reserve
+        <button
+          *ngSwitchCase="null"
+          [routerLink]="['/registration']"
+          [disabled]="!isAccommodationAvailable"
+        >
+          <span *ngIf="isAccommodationAvailable">Sign up to reserve</span>
+          <span *ngIf="!isAccommodationAvailable">{{
+            availabilityMessage
+          }}</span>
         </button>
       </ng-container>
     </ng-template>
@@ -194,7 +217,7 @@
     class="rateButton"
     (click)="openHostReviewDialog()"
   >
-    Rate accommodation
+    Rate host
   </button>
 
   <!-- HOST user scenario -->

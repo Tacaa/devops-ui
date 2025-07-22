@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccommodationService } from '../services/mock/accommodation.service';
 import { Reservation } from '../shared/models/reservation.model';
 import { ReservationService } from '../services/reservation/reservation.service';
+import { AuthService } from '../services/auth/auth.service';
 
 interface ApiResponse {
   data: Reservation[];
@@ -15,10 +16,14 @@ interface ApiResponse {
 })
 export class PersonalReservationsComponent implements OnInit {
   reservations: Reservation[] = [];
+  userId: number | null = this.authService.getUserId();
 
-  private loggedInUserId = 1; // Replace with actual user ID or authentication service
+  private loggedInUserId = this.userId; // Replace with actual user ID or authentication service
 
-  constructor(private reservationService: ReservationService) {}
+  constructor(
+    private reservationService: ReservationService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadReservations();
@@ -26,7 +31,7 @@ export class PersonalReservationsComponent implements OnInit {
 
   loadReservations(): void {
     this.reservationService
-      .getGuestReservations(this.loggedInUserId)
+      .getGuestReservations(this.loggedInUserId as number)
       .subscribe({
         next: (response: ApiResponse) => {
           this.reservations = response.data;
@@ -38,16 +43,13 @@ export class PersonalReservationsComponent implements OnInit {
   }
 
   cancelReservation(reservation: Reservation): void {
-    this.reservations = this.reservations.filter(
-      (r) => r.id !== reservation.id
-    );
-
     this.reservationService.guestCancelReservation(reservation.id).subscribe({
       next: () => {
         this.loadReservations();
       },
       error: (error) => {
         console.error('Error canceling reservation:', error);
+        alert('Error: ' + error.error.message);
       },
     });
   }

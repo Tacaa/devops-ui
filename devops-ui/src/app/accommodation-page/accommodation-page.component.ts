@@ -36,9 +36,8 @@ export class AccommodationPageComponent implements OnInit {
 
   reservationData = {
     numGuest: 2,
-    startDate: '2025-05-02',
-    endDate: '2025-05-06',
-    PriceType: PriceType.BY_ACCOMMODATION || PriceType.BY_PERSON,
+    startDate: '2025-08-27',
+    endDate: '2025-08-30',
   };
 
   constructor(
@@ -121,6 +120,17 @@ export class AccommodationPageComponent implements OnInit {
     });
   }
 
+  get isAccommodationAvailable(): boolean {
+    return this.totalPrice !== -1;
+  }
+
+  get availabilityMessage(): string {
+    if (this.totalPrice === -1) {
+      return 'Not available for selected dates';
+    }
+    return '';
+  }
+
   calculateTotalPrice(): void {
     if (
       !this.reservationData.startDate ||
@@ -131,35 +141,95 @@ export class AccommodationPageComponent implements OnInit {
       return;
     }
 
+    if (this.availabilities.length === 0) {
+      this.totalPrice = -1; // Use -1 to indicate "not available"
+      return;
+    }
+
     const startDate = new Date(this.reservationData.startDate);
     const endDate = new Date(this.reservationData.endDate);
     let totalPrice = 0;
+    let hasAvailability = false;
 
-    this.availabilities.forEach((availability) => {
-      const availabilityStart = new Date(availability.startDate);
-      const availabilityEnd = new Date(availability.endDate);
+    // Get the accommodation to check price type
+    if (this.accommodation$) {
+      this.accommodation$.pipe(first()).subscribe((accommodation) => {
+        if (accommodation) {
+          this.availabilities.forEach((availability) => {
+            const availabilityStart = new Date(availability.startDate);
+            const availabilityEnd = new Date(availability.endDate);
 
-      // Check if selected dates overlap with availability
-      if (endDate >= availabilityStart && startDate <= availabilityEnd) {
-        const overlapStart =
-          startDate > availabilityStart ? startDate : availabilityStart;
-        const overlapEnd =
-          endDate < availabilityEnd ? endDate : availabilityEnd;
-        const days =
-          (overlapEnd.getTime() - overlapStart.getTime()) /
-            (1000 * 60 * 60 * 24) +
-          1;
+            // Check if selected dates overlap with availability
+            if (endDate >= availabilityStart && startDate <= availabilityEnd) {
+              hasAvailability = true;
 
-        if (this.reservationData.PriceType === 'BY_PERSON') {
-          totalPrice +=
-            days * availability.price * this.reservationData.numGuest;
-        } else {
-          totalPrice += days * availability.price;
+              const overlapStart =
+                startDate > availabilityStart ? startDate : availabilityStart;
+              const overlapEnd =
+                endDate < availabilityEnd ? endDate : availabilityEnd;
+
+              // Calculate nights
+              const nights = Math.ceil(
+                (overlapEnd.getTime() - overlapStart.getTime()) /
+                  (1000 * 60 * 60 * 24)
+              );
+
+              if (accommodation.priceType === PriceType.BY_PERSON) {
+                totalPrice +=
+                  nights * availability.price * this.reservationData.numGuest;
+              } else {
+                totalPrice += nights * availability.price;
+              }
+            }
+          });
+
+          // Check if the entire date range is covered
+          if (
+            !hasAvailability ||
+            !this.isDateRangeCovered(startDate, endDate)
+          ) {
+            this.totalPrice = -1; // Not available
+          } else {
+            this.totalPrice = totalPrice;
+          }
+        }
+      });
+    }
+  }
+
+  // Helper method to check if the entire date range is covered by availabilities
+  isDateRangeCovered(startDate: Date, endDate: Date): boolean {
+    const sortedAvailabilities = this.availabilities
+      .filter((availability) => {
+        const availStart = new Date(availability.startDate);
+        const availEnd = new Date(availability.endDate);
+        return endDate >= availStart && startDate <= availEnd;
+      })
+      .sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+
+    if (sortedAvailabilities.length === 0) {
+      return false;
+    }
+
+    let currentDate = new Date(startDate);
+
+    for (const availability of sortedAvailabilities) {
+      const availStart = new Date(availability.startDate);
+      const availEnd = new Date(availability.endDate);
+
+      if (availStart <= currentDate && availEnd >= currentDate) {
+        currentDate = new Date(availEnd.getTime() + 24 * 60 * 60 * 1000); // Next day after availability ends
+
+        if (currentDate > endDate) {
+          return true; // Entire range is covered
         }
       }
-    });
+    }
 
-    this.totalPrice = totalPrice;
+    return false;
   }
 
   ngOnInit(): void {
