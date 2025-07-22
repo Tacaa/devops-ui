@@ -15,7 +15,7 @@ export class AuthService {
   private tokenKey = 'authToken';
   private userIdKey = 'userId';
   private userRoleKey = 'userRole';
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'http://localhost/api/auth';
   private currentUserSubject = new BehaviorSubject<CurrentUser | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
