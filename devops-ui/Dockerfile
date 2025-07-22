@@ -1,20 +1,18 @@
 # Build stage
-FROM node:18 as build
+FROM node:18 AS build
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
-
 COPY . .
 RUN npm run build --prod
 
-# Serve with nginx
+# Run stage
 FROM nginx:alpine
+# Overwrite default site config with our SPA config:
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy Angular build artifacts
 
-# Copy custom nginx config from build context (project root)
-COPY /nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy Angular dist files
 COPY --from=build /app/dist/devops-ui /usr/share/nginx/html
 
 EXPOSE 80

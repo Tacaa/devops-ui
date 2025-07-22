@@ -8,7 +8,7 @@ import { CreateAccommodationDTO } from 'src/app/shared/dto/CreateAccommodationDT
   providedIn: 'root',
 })
 export class AccommodationService {
-  private apiUrl = 'http://localhost:8080/api/accommodation';
+  private apiUrl = 'http://localhost/api/accommodation';
 
   constructor(private http: HttpClient) {}
 
