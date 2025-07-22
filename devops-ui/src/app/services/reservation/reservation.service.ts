@@ -13,7 +13,7 @@ interface ApiResponse {
   providedIn: 'root',
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8080/api/reservation';
+  private apiUrl = 'http://localhost/api/reservation';
 
   constructor(private http: HttpClient) {}
 
