@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-accommodation-review-dialog',
@@ -10,6 +11,7 @@ export class AccommodationReviewDialogComponent {
   review: number = 5;
 
   constructor(
+    private authService: AuthService,
     public dialogRef: MatDialogRef<AccommodationReviewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { accommodationId: number }
   ) {}
@@ -18,7 +20,7 @@ export class AccommodationReviewDialogComponent {
     this.dialogRef.close({
       review: this.review,
       accommodationId: this.data.accommodationId,
-      reviewerId: 1,
+      reviewerId: this.authService.getUserId(),
     });
   }
 }

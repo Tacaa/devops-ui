@@ -108,9 +108,12 @@
     </div>
 
     <div class="price">
-      <span>
-        <strong>€{{ totalPrice }}</strong></span
-      >
+      <span *ngIf="isAccommodationAvailable">
+        <strong>€{{ totalPrice }}</strong>
+      </span>
+      <span *ngIf="!isAccommodationAvailable" style="color: #ff6b6b">
+        <strong>{{ availabilityMessage }}</strong>
+      </span>
     </div>
 
     <div class="approval">
@@ -140,10 +143,10 @@
               ((accommodation$ | async)?.maxGuests || 0)
           "
         >
-          <span *ngIf="isAccommodationAvailable; else notAvailableText"
-            >Reserve</span
-          >
-          <ng-template #notAvailableText>{{ availabilityMessage }}</ng-template>
+          <span *ngIf="isAccommodationAvailable">Reserve</span>
+          <span *ngIf="!isAccommodationAvailable">{{
+            availabilityMessage
+          }}</span>
         </button>
 
         <!-- Null user scenario -->
@@ -152,12 +155,10 @@
           [routerLink]="['/registration']"
           [disabled]="!isAccommodationAvailable"
         >
-          <span *ngIf="isAccommodationAvailable; else signUpNotAvailable"
-            >Sign up to reserve</span
-          >
-          <ng-template #signUpNotAvailable>{{
+          <span *ngIf="isAccommodationAvailable">Sign up to reserve</span>
+          <span *ngIf="!isAccommodationAvailable">{{
             availabilityMessage
-          }}</ng-template>
+          }}</span>
         </button>
       </ng-container>
     </ng-template>
@@ -216,7 +217,7 @@
     class="rateButton"
     (click)="openHostReviewDialog()"
   >
-    Rate accommodation
+    Rate host
   </button>
 
   <!-- HOST user scenario -->
